@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+// Entry point of CGamE engine
 int main(void) {
     glfwInit();
     glfwWindowHint(GLFW_SAMPLES, 4);
@@ -30,7 +31,7 @@ int main(void) {
 
         glfwSwapBuffers(window);
         glfwPollEvents();
-    } 
+    }
 
     return 0;
 }
