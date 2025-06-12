@@ -13,19 +13,19 @@ struct CGE_Context {
     // if object is destroyed, adds it index here so it can be overrided in future
 };
 
-CGE_DEF CGE_Context CGE_CreateContext ();
+CGE_API CGE_Context CGE_CreateContext ();
 // creates and returns new CGE_Context
 
-CGE_DEF void CGE_DestroyContext (CGE_Context *Context);
+CGE_API void CGE_DestroyContext (CGE_Context *Context);
 // destroys context and frees all objects
 
-CGE_DEF CGE_Object_id CGE_CreateSpaceForObject (CGE_Context *Context);
+CGE_API CGE_Object_id CGE_CreateSpaceForObject (CGE_Context *Context);
 // returns index of ready-to-use new object
 
-CGE_DEF void CGE_FreeSpaceFromObject (CGE_Context *Context, CGE_Object_id ObjId);
+CGE_API void CGE_FreeSpaceFromObject (CGE_Context *Context, CGE_Object_id ObjId);
 // destroys object and makes it overrideble for the future
 
-CGE_DEF CGE_Object* CGE_IndexObject (CGE_Context *Context, CGE_Object_id ObjId);
+CGE_API CGE_Object* CGE_IndexObject (CGE_Context *Context, CGE_Object_id ObjId);
 // returns pointer to a CGE_Object by its index
 
 #endif

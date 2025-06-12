@@ -4,15 +4,15 @@
 
 const char* CGE_LoggingColor (CGE_Message_type type) {
     switch (type) {
-        case SUCCESS:
+        case CGE_MSG_TYPE_SUCCESS:
             return "\e[0;92m";
-        case ERROR:
+        case CGE_MSG_TYPE_ERROR:
             return "\e[0;91m";
-        case WARNING:
+        case CGE_MSG_TYPE_WARNING:
             return "\e[0;33m";
-        case INFO:
+        case CGE_MSG_TYPE_INFO:
             return "\e[0;36m";
-        case DEBUG:
+        case CGE_MSG_TYPE_DEBUG:
             return "\e[0;37m";
         default:
             return "\e[0m";

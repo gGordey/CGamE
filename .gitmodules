@@ -1,0 +1,3 @@
+[submodule "include/CommonCTypes"]
+	path = include/CommonCTypes
+	url = https://github.com/gGordey/CommonCTypes

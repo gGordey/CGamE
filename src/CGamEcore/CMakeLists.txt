@@ -15,7 +15,10 @@ set(CCT_DIR "../../include/CommonCTypes")
 
 add_library(CCT STATIC ${CCT_DIR}/mat.c ${CCT_DIR}/option.c ${CCT_DIR}/string.c ${CCT_DIR}/vector.c)
 
-add_executable(${PROJECT_NAME} CGamEmain.c CGamE_Object.c CGamE_Context.c CGamE_Log.c CGamE_Hook.c)
+add_executable(${PROJECT_NAME} 
+    CGamEmain.c CGamE_Object.c CGamE_Context.c 
+    CGamE_Log.c CGamE_Hook.c CGamE_Tags.c
+)
 set_target_properties(${PROJECT_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR}
 )
