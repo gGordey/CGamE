@@ -5,23 +5,24 @@
 #include <CGamE.h>
 #include <stdio.h>
 
+void TestCallback(CGE_Context *Context, int64_t zero) {
+    printf("entered callback\n");
+}
+void TestCallback1(CGE_Context *Context, int64_t zero) {
+    printf("another callback\n");
+}
+
 int main() {
-    CGE_Context context = CGE_CreateContext();  
+    CGE_Context Context = CGE_CreateContext();  
 
-    CGE_LogString("Hello From Success\n", SUCCESS);
-    CGE_LogString("Hello From Error\n", ERROR);
-    CGE_LogString("Hello From Warning\n", WARNING);
-    CGE_LogString("Hello From Info\n", INFO);
-    CGE_LogString("Hello From Debug\n", DEBUG);
+    CGE_Object_id h1 = CGE_CreateHook(&Context, &TestCallback, HOOK_UPDATE);
+    CGE_Object_id h2 = CGE_CreateHook(&Context, &TestCallback1, HOOK_UPDATE);
 
-    CGE_LogInt(25, SUCCESS);
-    printf("\n");
-    CGE_LogFloat(235.23f, ERROR);
     // main loop
     while (1) {
-
+        CGE_ActivateHookUpdate(&Context);
     }
 
-    CGE_DestroyContext(&context);
+    CGE_DestroyContext(&Context);
     return 0;
 }
