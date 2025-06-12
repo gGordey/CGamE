@@ -1,8 +1,5 @@
 #include <CGamE.h>
 
-#include <CGamE_Object.h>
-#include <CGamE_Context.h>
-
 #include <memory.h>
 #include <malloc.h>
 

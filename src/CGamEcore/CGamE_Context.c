@@ -1,8 +1,5 @@
 #include <CGamE.h>
 
-#include <CGamE_Context.h>
-#include <CGamE_Object.h>
-
 #include <stdlib.h>
 
 const int SPACE_TO_RESERVE = 512;
