@@ -1,26 +1,37 @@
 cmake_minimum_required(VERSION 3.10)
 
-set(CMAKE_C_COMPILER "gcc")
-
-set(CMAKE_C_FLAGS "-O3 -L .")
-
-set(OUTPUT_DIR "${CMAKE_BINARY_DIR}/bin")
+set(OUTPUT_DIR "${CMAKE_BINARY_DIR}/Runtime")
 set(PROJECT_NAME "CGamEcore")
+set(SHARED_LIB_NAME "CGamEruntime")
 
-project(${PROJECT_NAME})
+project(${SHARED_LIB_NAME})
 
-include_directories(.)
-include_directories(../../include)
 set(CCT_DIR "../../include/CommonCTypes")
 
-add_library(CCT STATIC ${CCT_DIR}/mat.c ${CCT_DIR}/option.c ${CCT_DIR}/string.c ${CCT_DIR}/vector.c)
-
-add_executable(${PROJECT_NAME} 
-    CGamEmain.c CGamE_Object.c CGamE_Context.c 
-    CGamE_Log.c CGamE_Hook.c CGamE_Tags.c
+add_library(${SHARED_LIB_NAME} SHARED 
+    CGamE_Context.c
+    CGamE_Object.c
+    CGamE_Hook.c
+    CGamE_Log.c
+    CGamE_Tags.c
 )
-set_target_properties(${PROJECT_NAME} PROPERTIES
+target_link_libraries(${SHARED_LIB_NAME} 
+    CCT 
+    glfw 
+    "opengl32.lib"
+)
+set_target_properties(${SHARED_LIB_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR}
 )
 
-target_link_libraries(${PROJECT_NAME} CCT)
+
+add_executable(CGamEcore
+    CGamEmain.c
+)
+set_target_properties(CGamEcore PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR}
+)
+
+target_link_libraries(CGamEcore
+    ${SHARED_LIB_NAME}
+)

@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
 set(CMAKE_C_COMPILER "gcc")
-
 set(CMAKE_C_FLAGS "-O3 -L .")
 
 set(OUTPUT_DIR "${CMAKE_BINARY_DIR}/bin")
@@ -12,19 +11,11 @@ set(PROJECT_NAME "CGamE")
 project(${PROJECT_NAME})
 
 include_directories(include)
+include_directories(lib/glfw/include)
+include_directories(lib/CCT)
+include_directories(src/CGamEcore)
 
-add_subdirectory(src/CGameEcore)
-
-file(COPY "${LIB_DIR}/glfw3.dll" DESTINATION "${OUTPUT_DIR}")
-file(COPY "${LIB_DIR}/glad.dll" DESTINATION "${OUTPUT_DIR}")
-
-
-add_executable(${PROJECT_NAME} ${SRC_DIR}/main.c)
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR}
-)
-
-target_link_libraries(${PROJECT_NAME} PRIVATE 
-    ${LIB_DIR}/glad.dll
-    ${LIB_DIR}/glfw3.dll
-)
+add_subdirectory(lib/CCT/CommonCTypes) # CCT.a
+add_subdirectory(lib/glfw) # glfw.lib
+add_subdirectory(src/CGamEcore) # CGamEruntime.dll & CGamEcore.exe
+add_subdirectory(src/Sandbox) # CGamEsandbox.exe

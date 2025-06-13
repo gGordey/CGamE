@@ -1,3 +1,6 @@
-[submodule "include/CommonCTypes"]
-	path = include/CommonCTypes
+[submodule "lib/CCT/CommonCTypes"]
+	path = lib/CCT/CommonCTypes
 	url = https://github.com/gGordey/CommonCTypes
+[submodule "lib/glfw"]
+	path = lib/glfw
+	url = https://github.com/glfw/glfw

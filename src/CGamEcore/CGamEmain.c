@@ -18,15 +18,14 @@ int main() {
     CGE_CreateObject(&Context, CGE_OBJ_TYPE_UNDEFINED, CGE_OBJECT_TAG_ETERNAL);
     // Create that Zero-object for safety reasons
     
-    CGE_Object_id createdHook = CGE_CreateHook(&Context, &LogInfo, CGE_HOOK_OBJECT_CREATED);
-    CGE_Object_id destroyedHook = CGE_CreateHook(&Context, &LogInfo1, CGE_HOOK_OBJECT_DESTROYED);
+    // CGE_Object_id createdHook = CGE_CreateHook(&Context, &LogInfo, CGE_HOOK_OBJECT_CREATED);
+    // CGE_Object_id destroyedHook = CGE_CreateHook(&Context, &LogInfo1, CGE_HOOK_OBJECT_DESTROYED);
 
     CGE_CreateObject(&Context, CGE_OBJ_TYPE_UNDEFINED, CGE_OBJECT_TAG_TEMPORARY);
     while (1) {
         // main loop
         CGE_ActivateHookUpdate(&Context);
 
-        printf("frame past\n");
 
         CGE_DestroyTemporaryObjectes(&Context);
     }
