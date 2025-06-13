@@ -48,14 +48,14 @@ CGE_Bool CGE_ObjectHasTag (CGE_Context* Context, CGE_Object_id ObjId, CGE_Object
         CGE_LogString(
             CGE_LOG_MSG_WARNING " Trying to access deleted Object\n"
             CGE_LOG_MSG_WARNING " Object ID:\n" 
-            CGE_LOG_MSG_WARNING "\t"
-            CGE_LOG_MSG_WARNING , CGE_MSG_TYPE_WARNING
+            CGE_LOG_MSG_WARNING "\t", 
+            CGE_MSG_TYPE_WARNING
         );
         CGE_LogInt(ObjId, CGE_MSG_TYPE_WARNING);
         CGE_LogString( "\n"
             CGE_LOG_MSG_WARNING " In funtion 'CGE_ObjectHasTag'\n"
-            CGE_LOG_MSG_WARNING " May lead to unexpected behaviour!\n"
-            CGE_LOG_MSG_WARNING , CGE_MSG_TYPE_WARNING
+            CGE_LOG_MSG_WARNING " May lead to unexpected behaviour!\n", 
+            CGE_MSG_TYPE_WARNING
         );
         return CGE_False;
     }

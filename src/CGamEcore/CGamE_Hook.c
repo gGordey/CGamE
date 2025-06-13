@@ -7,7 +7,15 @@ CGE_Object_id CGE_CreateHook (CGE_Context *Context, CGE_Hook_Callback_t Callback
 }
 
 void CGE_AttachHook (CGE_Context *Context, CGE_Hook_Callback_t Callback, CGE_Hook_type type, CGE_Object_id hook) {
-    *((CGE_Hook*)CGE_IndexObject(Context, hook)->data) = (CGE_Hook){
+    CGE_Object *HookObj = CGE_IndexObject(Context, hook);
+    if (HookObj->type != CGE_OBJ_TYPE_RENDERER) {
+        CGE_LogErrorWrongObjectType(Context, hook, 
+            "CGE_OBJ_TYPE_HOOK", "CGE_AttachHook"
+        );
+        CGE_Terminate();
+        return;
+    }
+    *((CGE_Hook*)HookObj->data) = (CGE_Hook){
         // set CGE_Object.data to CGE_Hook struct
         .Callback = Callback,
         .type = type
@@ -15,6 +23,13 @@ void CGE_AttachHook (CGE_Context *Context, CGE_Hook_Callback_t Callback, CGE_Hoo
 }
 
 void CGE_DeattachHook (CGE_Context *Context, CGE_Object_id hook) {
+    if (CGE_IndexObject(Context, hook)->type != CGE_OBJ_TYPE_RENDERER) {
+        CGE_LogErrorWrongObjectType(Context, hook, 
+            "CGE_OBJ_TYPE_HOOK", "CGE_DeattachHook"
+        );
+        CGE_Terminate();
+        return;
+    }
     CGE_AttachHook (Context, &CGE_NullCallback, CGE_HOOK_DEATTACHED, hook);
 }
 

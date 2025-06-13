@@ -3,7 +3,7 @@
 #include <GLFW/glfw3.h>
 
 CGE_Bool CGE_CreateGLFWwindow (CGE_Context *Context, CGE_Object_id RendererId, int W, int H, const char *Tilte) {
-    CGE_Renderer *Renderer = (CGE_Renderer*)(CGE_IndexObject(Context, RendererId)->data);
+    CGE_Renderer *Renderer = (CGE_Renderer*)CGE_IndexObject(Context, RendererId)->data;
     Renderer->Window = glfwCreateWindow(W, H, Tilte, NULL, NULL);
     if (!Renderer->Window) {
         glfwTerminate();
@@ -30,16 +30,32 @@ CGE_Object_id CGE_CreateRenderer (CGE_Context *Context) {
 }
 
 void CGE_DestroyRenderer (CGE_Context *Context, CGE_Object_id RendererId) {
-    glfwDestroyWindow(((CGE_Renderer*)(CGE_IndexObject(Context, RendererId)->data))->Window);
+    glfwDestroyWindow(((CGE_Renderer*)CGE_IndexObject(Context, RendererId)->data)->Window);
     CGE_DestroyObject(Context, RendererId);
 }
 
 void CGE_ChangeGlfwContext (CGE_Context *Context, CGE_Object_id RendererId) {
-    glfwMakeContextCurrent(((CGE_Renderer*)(CGE_IndexObject(Context, RendererId)->data))->Window);
+    CGE_Object *RedererObj = CGE_IndexObject(Context, RendererId);
+    if (RedererObj->type != CGE_OBJ_TYPE_RENDERER) {
+        CGE_LogErrorWrongObjectType(Context, RendererId, 
+            "CGE_OBJ_TYPE_RENDERER", "CGE_ChangeGlfwContext"
+        );
+        CGE_Terminate();
+        return;
+    }
+    glfwMakeContextCurrent(((CGE_Renderer*)RedererObj->data)->Window);
 }
 
 CGE_Bool CGE_RendererDrawFrame (CGE_Context *Context, CGE_Object_id RendererId) {
-    CGE_Renderer *Renderer = (CGE_Renderer*)(CGE_IndexObject(Context, RendererId)->data);
+    CGE_Object *RedererObj = CGE_IndexObject(Context, RendererId);
+    if (RedererObj->type != CGE_OBJ_TYPE_RENDERER) {
+        CGE_LogErrorWrongObjectType(Context, RendererId, 
+            "CGE_OBJ_TYPE_RENDERER", "CGE_RendererDrawFrame"
+        );
+        CGE_Terminate();
+        return CGE_False;
+    }
+    CGE_Renderer *Renderer = (CGE_Renderer*)CGE_IndexObject(Context, RendererId)->data;
     glClear(GL_COLOR_BUFFER_BIT);
 
     glfwSwapBuffers(Renderer->Window);

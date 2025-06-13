@@ -11,6 +11,9 @@ enum CGE_Message_type {
     CGE_MSG_TYPE_DEBUG
 };
 
+CGE_API CGE_Bool CGE_ShouldTerminate(void);
+CGE_API void CGE_Terminate(void);
+
 CGE_API const char* CGE_LoggingColor (CGE_Message_type type);
 
 CGE_API void CGE_LogString (const char *msg, CGE_Message_type type);
@@ -18,5 +21,7 @@ CGE_API void CGE_LogString (const char *msg, CGE_Message_type type);
 CGE_API void CGE_LogInt (int64_t msg, CGE_Message_type type);
 
 CGE_API void CGE_LogFloat (double msg, CGE_Message_type type);
+
+void CGE_LogErrorWrongObjectType(CGE_Context *Context, CGE_Object_id ObjId, const char *Expected, const char *FunctionName);
 
 #endif

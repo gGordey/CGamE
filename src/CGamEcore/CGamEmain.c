@@ -33,11 +33,18 @@ int main() {
         }
 
         CGE_DestroyTemporaryObjectes(&Context);
+        if (CGE_ShouldTerminate()) {           
+            break;
+        }
     }
     
     if (!RendererDestroyed) {
         CGE_DestroyRenderer(&Context, Renderer);
     }
     CGE_DestroyContext(&Context);
+    
+    printf("Press ENTER key to Continue\n");  
+    getchar(); 
+    
     return 0;
 }
