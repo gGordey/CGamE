@@ -27,7 +27,7 @@ typedef uint32_t CGE_Object_tag;
 typedef struct CGE_Object CGE_Object;
 typedef struct CGE_Context CGE_Context;
 typedef struct CGE_Hook CGE_Hook;
-typedef struct CGE_Window CGE_Window;
+typedef struct CGE_Renderer CGE_Renderer;
 
 typedef enum CGE_Message_type CGE_Message_type;
 typedef enum CGE_Hook_type CGE_Hook_type;
@@ -44,6 +44,6 @@ typedef void (*CGE_Hook_Callback_t)(CGE_Context*, CGE_Object_id, int64_t);
 #include <CGamE_Object.h>
 #include <CGamE_Hook.h>
 #include <CGamE_Log.h>
-#include <CGamE_Window.h>
+#include <CGamE_Renderer.h>
 
 #endif

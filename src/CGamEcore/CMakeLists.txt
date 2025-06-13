@@ -14,6 +14,7 @@ add_library(${SHARED_LIB_NAME} SHARED
     CGamE_Hook.c
     CGamE_Log.c
     CGamE_Tags.c
+    CGamE_Renderer.c
 )
 target_link_libraries(${SHARED_LIB_NAME} 
     CCT 
@@ -22,8 +23,8 @@ target_link_libraries(${SHARED_LIB_NAME}
 )
 set_target_properties(${SHARED_LIB_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR}
+    PREFIX ""
 )
-
 
 add_executable(CGamEcore
     CGamEmain.c

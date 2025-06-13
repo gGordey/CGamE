@@ -9,8 +9,11 @@ CGE_Object_id CGE_CreateObject (CGE_Context *Context, CGE_Object_type type, CGE_
     
     Object->type = type;
     switch (type) {
-        case (CGE_OBJ_TYPE_HOOK):
+        case CGE_OBJ_TYPE_HOOK:
             Object->data = malloc(sizeof(CGE_Hook));
+            break;
+        case CGE_OBJ_TYPE_RENDERER:
+            Object->data = malloc(sizeof(CGE_Renderer));
             break;
         default:
             Object->data = malloc(1);
