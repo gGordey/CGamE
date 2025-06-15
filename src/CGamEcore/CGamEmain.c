@@ -21,15 +21,15 @@ int main() {
     // CGE_Object_id createdHook = CGE_CreateHook(&Context, &LogInfo, CGE_HOOK_OBJECT_CREATED);
     // CGE_Object_id destroyedHook = CGE_CreateHook(&Context, &LogInfo1, CGE_HOOK_OBJECT_DESTROYED);
     CGE_Object_id Renderer = CGE_CreateRenderer(&Context);
-
     CGE_Bool RendererDestroyed = CGE_False;
     while (1) {
         // main loop
         CGE_ActivateHookUpdate(&Context);
 
-        CGE_ChangeGlfwContext(&Context, Renderer);
         if (!RendererDestroyed && !CGE_RendererDrawFrame(&Context, Renderer)) {
+            CGE_DestroyRenderer(&Context, Renderer);
             RendererDestroyed = CGE_True;
+            break;
         }
 
         CGE_DestroyTemporaryObjectes(&Context);
@@ -37,11 +37,12 @@ int main() {
             break;
         }
     }
-    
     if (!RendererDestroyed) {
         CGE_DestroyRenderer(&Context, Renderer);
     }
+    
     CGE_DestroyContext(&Context);
+    glfwTerminate();
     
     printf("Press ENTER key to Continue\n");  
     getchar(); 

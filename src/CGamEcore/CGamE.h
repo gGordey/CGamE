@@ -18,6 +18,13 @@ typedef int CGE_Bool;
 #define CGE_True    1
 #define CGE_False   0
 
+#ifdef _MSC_VER  
+    typedef char *CGE_pVoid_t;
+#else
+    typedef void *CGE_pVoid_t;
+#endif
+
+
 typedef uint32_t CGE_Object_id;
 // Main CGE_Context inteface is CGE_Object_id, not CGE_Object*
 // That's because this way program have more checks to do and therefore its safer

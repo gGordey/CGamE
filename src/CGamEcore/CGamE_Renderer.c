@@ -71,6 +71,7 @@ CGE_Bool CGE_RendererDrawFrame (CGE_Context *Context, CGE_Object_id RendererId) 
         return CGE_False;
     }
     CGE_Renderer *Renderer = (CGE_Renderer*)CGE_IndexObject(Context, RendererId)->data;
+    CGE_ChangeGlfwContext(Context, RendererId);
     glClear(GL_COLOR_BUFFER_BIT);
 
     glfwSwapBuffers(Renderer->Window);
@@ -78,7 +79,6 @@ CGE_Bool CGE_RendererDrawFrame (CGE_Context *Context, CGE_Object_id RendererId) 
     glfwPollEvents();
 
     if (glfwWindowShouldClose(Renderer->Window)) {
-        CGE_DestroyRenderer(Context, RendererId);
         return CGE_False;
     }
     return CGE_True;

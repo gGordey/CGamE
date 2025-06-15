@@ -12,7 +12,7 @@ struct CGE_Context {
     vector FreeSpaces; // vec<CGE_Object_id>
     // if object is destroyed, adds it index here so it can be overrided in future
     vector Hooks; // vec<CGE_Hook>
-    vector FreeHooks;
+    vector FreeHooks; // vec<CGE_Object_id>
 };
 
 CGE_API CGE_Context CGE_CreateContext ();
@@ -29,5 +29,7 @@ CGE_API void CGE_FreeSpaceFromObject (CGE_Context *Context, CGE_Object_id ObjId)
 
 CGE_API CGE_Object* CGE_IndexObject (CGE_Context *Context, CGE_Object_id ObjId);
 // returns pointer to a CGE_Object by its index
+
+CGE_API CGE_Hook* CGE_IndexHook (CGE_Context *Context, CGE_Object_id HookId);
 
 #endif

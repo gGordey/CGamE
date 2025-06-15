@@ -57,10 +57,29 @@ void CGE_FreeSpaceFromObject (CGE_Context *Context, CGE_Object_id ObjId) {
 }
 
 CGE_Object* CGE_IndexObject (CGE_Context *Context, CGE_Object_id ObjId) {
+    if (ObjId > Context->Objects.size) {
+        CGE_LogString(
+            CGE_LOG_MSG_ERROR "Out-of-bounds obj1 vector index\n",
+            CGE_MSG_TYPE_ERROR
+        );
+        return NULL;
+    } 
     CGE_Object *Object = (CGE_Object*)_cvec_at(&Context->Objects, ObjId);
+    
     // if (Object->objId == UINT32_MAX) {
     //     // ERROR HERE;
     //     exit(1);
     // }
     return Object;
+}
+
+CGE_API CGE_Hook* CGE_IndexHook (CGE_Context *Context, CGE_Object_id HookId) {
+    if (HookId > Context->Hooks.size) {
+        CGE_LogString(
+            CGE_LOG_MSG_ERROR "Out-of-bounds vector index\n",
+            CGE_MSG_TYPE_ERROR
+        );
+        return NULL;
+    } 
+    return (CGE_Hook*)_cvec_at(&Context->Hooks, HookId);
 }
