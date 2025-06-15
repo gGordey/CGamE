@@ -6,6 +6,16 @@ CGE_Bool CGE_CreateGLFWwindow (CGE_Context *Context, CGE_Object_id RendererId, i
     CGE_Renderer *Renderer = (CGE_Renderer*)CGE_IndexObject(Context, RendererId)->data;
     Renderer->Window = glfwCreateWindow(W, H, Tilte, NULL, NULL);
     if (!Renderer->Window) {
+	char *ErrorLogBuf;
+	int glfwErrorCode = glfwGetError((const char**)&ErrorLogBuf);
+	CGE_LogString (
+	    CGE_LOG_MSG_ERROR " Failed to init GLFW Window\n"
+            CGE_LOG_MSG_ERROR " Couldn't continue any further\n"
+	    CGE_LOG_MSG_ERROR " GLFW Error:\n",
+	    CGE_MSG_TYPE_ERROR 
+	);
+	CGE_LogString(ErrorLogBuf, CGE_MSG_TYPE_ERROR);
+	CGE_LogString("\n", CGE_MSG_TYPE_ERROR);
         glfwTerminate();
         return CGE_False;
     }
@@ -16,15 +26,20 @@ CGE_Object_id CGE_CreateRenderer (CGE_Context *Context) {
     CGE_Object_id Renderer = CGE_CreateObject(Context, CGE_OBJ_TYPE_RENDERER, 0);
 
     if (!glfwInit()) {
+	char *ErrorLogBuf;
+	int glfwErrorCode = glfwGetError((const char**)&ErrorLogBuf);
         CGE_LogString (
             CGE_LOG_MSG_ERROR " Failed to init GLFW\n"
-            CGE_LOG_MSG_ERROR " Couldn't continue any further\n",
+            CGE_LOG_MSG_ERROR " Couldn't continue any further\n\n",
             CGE_MSG_TYPE_ERROR
         );
+	CGE_LogString(ErrorLogBuf, CGE_MSG_TYPE_ERROR);
         glfwTerminate();
         return 0;
     }
-    CGE_CreateGLFWwindow(Context, Renderer, 640, 360, "CGamE Runtime");
+    if (!CGE_CreateGLFWwindow(Context, Renderer, 640, 360, "CGamE Runtime")) {
+	return 0;
+    }
 
     return Renderer;
 }

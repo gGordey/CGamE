@@ -19,7 +19,7 @@ add_library(${SHARED_LIB_NAME} SHARED
 target_link_libraries(${SHARED_LIB_NAME} 
     CCT 
     glfw 
-    "opengl32.lib"
+    OpenGL::GL
 )
 set_target_properties(${SHARED_LIB_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR}
