@@ -27,4 +27,13 @@ void _mat4_mult(mat4x4* _restrict m1, mat4x4* _restrict m2, mat4x4 *buf);
 void _mat2_mult(mat2x2* _restrict m1, mat2x2* _restrict m2, mat2x2 *buf);
 mat _mat_mult(mat* _restrict m1, mat* _restrict m2);
 
+void _mat4_mult_vec(mat4x4* m,
+    float x, float y, float z, float w, 
+    float *destX, float *destY, float *destZ, float *destW
+);
+void _mat2_mult_vec(mat2x2* m,
+    float x, float y,
+    float *destX, float *destY
+);
+
 #endif//_C_MATRIX

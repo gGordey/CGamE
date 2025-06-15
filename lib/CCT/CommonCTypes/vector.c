@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <stddef.h>
 
+
+
 vector _cvec_new(size_t byte_len) {
     vector vec;
     vec.byte_len = byte_len;
@@ -13,7 +15,7 @@ vector _cvec_new(size_t byte_len) {
     vec.cap = 0;
     return vec;
 }
-vector _cvec_new_filled(size_t size, size_t byte_len, const void* element) {
+vector _cvec_new_filled(size_t size, size_t byte_len, const pvoid_t element) {
     vector vec = _cvec_new(byte_len);
     _cvec_reserve(&vec, size);
     for (size_t i = 0; i < size; ++i) {
@@ -21,7 +23,7 @@ vector _cvec_new_filled(size_t size, size_t byte_len, const void* element) {
     }
     return vec;
 }
-void _cvec_fill(vector* vec, const void* element) {
+void _cvec_fill(vector* vec, const pvoid_t element) {
     for (size_t i = 0; i < vec->size; ++i) {
         memcpy (
             vec->start + (i * vec->byte_len),
@@ -37,7 +39,7 @@ void _cvec_free(vector* vec) {
     free(vec->start);
     vec = NULL;
 }
-void _cvec_push(vector* vec, const void* element) {
+void _cvec_push(vector* vec, const pvoid_t element) {
     if (vec->size == vec->cap) {
         ++vec->cap;
         _cvec_realloc(vec);
@@ -60,14 +62,14 @@ void _cvec_reserve(vector* vec, size_t additional) {
     vec->cap += additional;
     _cvec_realloc(vec);
 }
-void* _cvec_at(vector* vec, size_t ind) {
+pvoid_t _cvec_at(vector* vec, size_t ind) {
     if (ind >= vec->size || ind < 0) {
         exit(EXIT_INVALID_ALLOCATON);
     }
     return vec->start+(ind*vec->byte_len);
 }
 void _cvec_realloc(vector* vec) {
-    void* copy_buf = malloc(vec->cap * vec->byte_len);
+    pvoid_t copy_buf = malloc(vec->cap * vec->byte_len);
     memcpy (
         copy_buf, 
         vec->start, 
@@ -77,8 +79,8 @@ void _cvec_realloc(vector* vec) {
     vec->start = copy_buf;
 }
 void _cvec_reverse(vector* vec) {
-    void* buffer = malloc(vec->cap * vec->byte_len);
-    for (long i = vec->size; i >= 0; --i) {
+    pvoid_t buffer = malloc(vec->cap * vec->byte_len);
+    for (size_t i = vec->size; i >= 0; --i) {
         memcpy (
                 buffer+((vec->size - i-1) * vec->byte_len), 
                 vec->start + (i * vec->byte_len),
@@ -108,7 +110,7 @@ void _cvec_remove(vector* vec, size_t ind) {
         --vec->size;
     }
 }
-void _cvec_insert(vector* vec, const void* element, size_t ind) {
+void _cvec_insert(vector* vec, const pvoid_t element, size_t ind) {
     if (ind < 0 || ind > vec->size) {
         exit(EXIT_INVALID_ALLOCATON);
     }
@@ -119,7 +121,7 @@ void _cvec_insert(vector* vec, const void* element, size_t ind) {
     if (vec->size == vec->cap) {
         ++vec->cap;
     }
-    void* buf = malloc(vec->cap * vec->byte_len);
+    pvoid_t buf = malloc(vec->cap * vec->byte_len);
     if (ind > 0) {
         memcpy (
             buf,

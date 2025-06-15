@@ -69,3 +69,37 @@ mat _mat_mult(mat* _restrict m1, mat* _restrict m2) {
     }
     return prod;
 }
+
+void _mat4_mult_vec(mat4x4* m,
+    float x, float y, float z, float w, 
+    float *destX, float *destY, float *destZ, float *destW
+) {
+    const float vec[4] = { x, y, z, w };
+    float sum[4] = { 0, 0, 0, 0 };
+
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            sum[i] += (*_mat4_index_data(m, i, j)) * vec[j];
+        }
+    }
+    *destX = sum[0];
+    *destY = sum[1];
+    *destZ = sum[2];
+    *destW = sum[3];
+}
+
+void _mat2_mult_vec(mat2x2* m,
+    float x, float y,
+    float *destX, float *destY
+) {
+    const float vec[2] = { x, y };
+    float sum[2] = { 0, 0 };
+
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 2; ++j) {
+            sum[i] += (*_mat4_index_data(m, i, j)) * vec[j];
+        }
+    }
+    *destX = sum[0];
+    *destY = sum[1];
+}

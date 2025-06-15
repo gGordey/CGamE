@@ -11,6 +11,8 @@ struct CGE_Context {
     //contains all object
     vector FreeSpaces; // vec<CGE_Object_id>
     // if object is destroyed, adds it index here so it can be overrided in future
+    vector Hooks; // vec<CGE_Hook>
+    vector FreeHooks;
 };
 
 CGE_API CGE_Context CGE_CreateContext ();
