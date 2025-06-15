@@ -14,12 +14,12 @@ project(${PROJECT_NAME})
 
 include_directories(include)
 include_directories(lib/glfw/include)
-include_directories(lib/CCT)
+include_directories(lib)
 include_directories(src/CGamEcore)
 
 find_package(OpenGL REQUIRED)
 
-add_subdirectory(lib/CCT/CommonCTypes) # CCT.a
+add_subdirectory(lib/CommonCTypes) # CCT.a
 add_subdirectory(lib/glfw) # glfw.lib
 add_subdirectory(src/CGamEcore) # CGamEruntime.dll & CGamEcore.exe
 add_subdirectory(src/Sandbox) # CGamEsandbox.exe
