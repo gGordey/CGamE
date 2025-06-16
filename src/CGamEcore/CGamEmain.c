@@ -45,7 +45,7 @@ int main() {
     glfwTerminate();
     
     printf("Press ENTER key to Continue\n");  
-    getchar(); 
+    getchar();
     
     return 0;
 }

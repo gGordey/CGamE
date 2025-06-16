@@ -7,28 +7,35 @@
 #include <CommonCTypes/vector.h>
 
 struct CGE_Context {
-    vector Objects; // vec<CGE_Object>
-    //contains all object
-    vector FreeSpaces; // vec<CGE_Object_id>
-    // if object is destroyed, adds it index here so it can be overrided in future
-    vector Hooks; // vec<CGE_Hook>
-    vector FreeHooks; // vec<CGE_Object_id>
+    // Contains all object
+    // vec<CGE_Object>
+    vector Objects;
+    // if object is destroyed, adds it index here so it can be overrided in future    
+    // vec<CGE_Object_id>
+    vector FreeSpaces;
+
+    // vec<CGE_Hook>
+    vector Hooks; 
+    // if hook is destroyed, adds it index here so it can be overrided in future
+    // vec<CGE_Object_id>
+    vector FreeHooks;
 };
 
-CGE_API CGE_Context CGE_CreateContext ();
 // creates and returns new CGE_Context
+CGE_API CGE_Context CGE_CreateContext ();
 
-CGE_API void CGE_DestroyContext (CGE_Context *Context);
 // destroys context and frees all objects
+CGE_API void CGE_DestroyContext (CGE_Context *Context);
 
-CGE_API CGE_Object_id CGE_CreateSpaceForObject (CGE_Context *Context);
+// locates space for new object
 // returns index of ready-to-use new object
+CGE_API CGE_Object_id CGE_CreateSpaceForObject (CGE_Context *Context);
 
-CGE_API void CGE_FreeSpaceFromObject (CGE_Context *Context, CGE_Object_id ObjId);
 // destroys object and makes it overrideble for the future
+CGE_API void CGE_FreeSpaceFromObject (CGE_Context *Context, CGE_Object_id ObjId);
 
-CGE_API CGE_Object* CGE_IndexObject (CGE_Context *Context, CGE_Object_id ObjId);
 // returns pointer to a CGE_Object by its index
+CGE_API CGE_Object* CGE_IndexObject (CGE_Context *Context, CGE_Object_id ObjId);
 
 CGE_API CGE_Hook* CGE_IndexHook (CGE_Context *Context, CGE_Object_id HookId);
 

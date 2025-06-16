@@ -17,9 +17,9 @@ CGE_API void CGE_DestroyRenderer (CGE_Context *Context, CGE_Object_id RendererId
 
 CGE_API void CGE_ChangeGlfwContext (CGE_Context *Context, CGE_Object_id RendererId);
 
-CGE_API CGE_Bool CGE_RendererDrawFrame (CGE_Context *Context, CGE_Object_id RendererId);
 // returns CGE_True  if everything went successfully
 //         CGE_False if window got closed
+CGE_API CGE_Bool CGE_RendererDrawFrame (CGE_Context *Context, CGE_Object_id RendererId);
 
 
 #endif
