@@ -74,5 +74,34 @@ void CGE_LogErrorWrongObjectType(CGE_Context *Context, CGE_Object_id ObjId, cons
         CGE_MSG_TYPE_ERROR
     );
     CGE_LogString(FunctionName, CGE_MSG_TYPE_ERROR);
-    CGE_LogString("\n", CGE_MSG_TYPE_ERROR);
+    CGE_LogString("\n\n", CGE_MSG_TYPE_ERROR);
+}
+
+void CGE_LogErrorInvalidIndexVector (CGE_Context *Context, vector *Vector, size_t index, const char *Caller, const char *VecName) {
+    CGE_LogString(
+        CGE_LOG_MSG_ERROR " Out-of-bounds vector index\n"
+        CGE_LOG_MSG_ERROR " Got:\n"
+        CGE_LOG_MSG_ERROR "\t", 
+        CGE_MSG_TYPE_ERROR
+    );
+    CGE_LogInt(index, CGE_MSG_TYPE_ERROR);
+    CGE_LogString("\n"
+        CGE_LOG_MSG_ERROR " Actual size:\n"
+        CGE_LOG_MSG_ERROR "\t",
+        CGE_MSG_TYPE_ERROR
+    );
+    CGE_LogInt(Vector->size, CGE_MSG_TYPE_ERROR);
+        CGE_LogString("\n"
+        CGE_LOG_MSG_ERROR " In vector:\n"
+        CGE_LOG_MSG_ERROR "\t",
+        CGE_MSG_TYPE_ERROR
+    );
+    CGE_LogString(VecName, CGE_MSG_TYPE_ERROR);
+    CGE_LogString("\n"
+        CGE_LOG_MSG_ERROR " In funtion:\n"
+        CGE_LOG_MSG_ERROR "\t", 
+        CGE_MSG_TYPE_ERROR
+    );
+    CGE_LogString(Caller, CGE_MSG_TYPE_ERROR);
+    CGE_LogString("\n\n", CGE_MSG_TYPE_ERROR);
 }

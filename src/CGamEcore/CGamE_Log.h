@@ -22,6 +22,8 @@ CGE_API void CGE_LogInt (int64_t msg, CGE_Message_type type);
 
 CGE_API void CGE_LogFloat (double msg, CGE_Message_type type);
 
-void CGE_LogErrorWrongObjectType(CGE_Context *Context, CGE_Object_id ObjId, const char *Expected, const char *FunctionName);
+CGE_API void CGE_LogErrorWrongObjectType (CGE_Context *Context, CGE_Object_id ObjId, const char *Expected, const char *FunctionName);
+
+CGE_API void CGE_LogErrorInvalidIndexVector (CGE_Context *Context, vector *Vector, size_t index, const char *Caller, const char *VecName);
 
 #endif
