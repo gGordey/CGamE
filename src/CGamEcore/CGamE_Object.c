@@ -4,14 +4,11 @@
 #include <malloc.h>
 
 CGE_Object_id CGE_CreateObject (CGE_Context *Context, CGE_Object_type type, CGE_Object_tag tags) {
-    CGE_Object_id objId = CGE_CreateSpaceForObject(Context);
+    CGE_Object_id objId = CGE_CreateSpaceForObject(Context, CGE_CONTEXT_TARGET_TYPE_OBJECTS);
     CGE_Object *Object = CGE_IndexObject(Context, objId);
     
     Object->type = type;
     switch (type) {
-        case CGE_OBJ_TYPE_HOOK:
-            Object->data = malloc(sizeof(CGE_Hook));
-            break;
         case CGE_OBJ_TYPE_RENDERER:
             Object->data = malloc(sizeof(CGE_Renderer));
             break;

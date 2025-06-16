@@ -43,6 +43,8 @@ typedef struct CGE_Renderer CGE_Renderer;
 typedef enum CGE_Message_type CGE_Message_type;
 typedef enum CGE_Hook_type CGE_Hook_type;
 typedef enum CGE_Object_type CGE_Object_type;
+// Used to interact with CGE_Context and spicify which vector you want 
+typedef enum CGE_Context_TargetType CGE_Context_TargetType;
 
 //  CGE_Context is context where everything is happening
 //  int64_t is additional information needed for some functions

@@ -9,9 +9,13 @@ CGE_Context CGE_CreateContext () {
     
     Context.Objects = _cvec_new(sizeof(CGE_Object));
     Context.FreeSpaces = _cvec_new(sizeof(CGE_Object_id));
+    Context.Hooks = _cvec_new(sizeof(CGE_Hook));
+    Context.FreeHooks = _cvec_new(sizeof(CGE_Object_id));
 
     _cvec_reserve(&Context.Objects, SPACE_TO_RESERVE);
     _cvec_reserve(&Context.FreeSpaces, SPACE_TO_RESERVE);
+    _cvec_reserve(&Context.Hooks, SPACE_TO_RESERVE);
+    _cvec_reserve(&Context.FreeHooks, SPACE_TO_RESERVE);
 
     return Context;
 }
@@ -24,26 +28,42 @@ void CGE_DestroyContext (CGE_Context *Context) {
     }
     _cvec_free(&Context->Objects);
     _cvec_free(&Context->FreeSpaces);
+    _cvec_free(&Context->Hooks);
+    _cvec_free(&Context->FreeHooks);
 }
 
-CGE_Object_id CGE_CreateSpaceForObject (CGE_Context *Context) {
+CGE_Object_id CGE_CreateSpaceForObject (CGE_Context *Context, CGE_Context_TargetType Target) {
     int freeId;
+    vector* VecTarget;
+    vector* VecTargetFree;
+    
+    switch (Target)
+    {
+        case CGE_CONTEXT_TARGET_TYPE_HOOKS:
+            VecTarget = &Context->Hooks;
+            VecTargetFree = &Context->FreeHooks;
+            break;
+        case CGE_CONTEXT_TARGET_TYPE_OBJECTS:
+        default:
+            VecTarget = &Context->Objects;
+            VecTargetFree = &Context->FreeSpaces;
+            break;
+    }
 
-    if (Context->FreeSpaces.size > 0) {
-        freeId = *(CGE_Object_id*)_cvec_at(&Context->FreeSpaces, Context->FreeSpaces.size-1);
-        _cvec_pop(&Context->FreeSpaces);
+    if (VecTargetFree->size > 0) {
+        freeId = *(CGE_Object_id*)_cvec_at(VecTargetFree, VecTargetFree->size-1);
+        _cvec_pop(VecTargetFree);
     }
     else {
-        if (Context->Objects.size >= Context->Objects.cap-1) {
-            _cvec_reserve(&Context->Objects, SPACE_TO_RESERVE);
+        if (VecTarget->size >= VecTarget->cap-1) {
+            _cvec_reserve(VecTarget, SPACE_TO_RESERVE);
         }
         CGE_Object o;
-        _cvec_push(&Context->Objects, &o);
-        freeId = Context->Objects.size - 1;
+        _cvec_push(VecTarget, &o);
+        freeId = VecTarget->size - 1;
     }
 
-    ((CGE_Object*)_cvec_at(&Context->Objects, freeId))->objId = freeId;
-    
+    ((CGE_Object*)_cvec_at(VecTarget, freeId))->objId = freeId;
     return freeId;
 }
 
