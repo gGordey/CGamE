@@ -12,7 +12,7 @@
 enum CGE_Object_type {
     CGE_OBJ_TYPE_UNDEFINED,
     CGE_OBJ_TYPE_RESOURCE,
-    CGE_OBJ_TYPE_ENTITY,
+    CGE_OBJ_TYPE_COMPONENT_SYSTEM,
     CGE_OBJ_TYPE_RENDERER
 };
 
@@ -22,8 +22,7 @@ struct CGE_Object {
     CGE_Object_id objId; 
     CGE_Object_tag tags;
     CGE_Object_type type;
-    char *name;
-    void *data;
+    CGE_pVoid_t data;
 };
 
 // Creates a CGE_Object in the given CGE_Context. Returns an index of the created object inside the CGE_Context

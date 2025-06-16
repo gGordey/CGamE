@@ -12,6 +12,9 @@ CGE_Object_id CGE_CreateObject (CGE_Context *Context, CGE_Object_type type, CGE_
         case CGE_OBJ_TYPE_RENDERER:
             Object->data = malloc(sizeof(CGE_Renderer));
             break;
+        case CGE_OBJ_TYPE_COMPONENT_SYSTEM:
+            Object->data = malloc(sizeof(CGE_ComponentSystem));
+            break;
         default:
             Object->data = malloc(1);
             break;

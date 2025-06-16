@@ -15,6 +15,7 @@ add_library(${SHARED_LIB_NAME} SHARED
     CGamE_Log.c
     CGamE_Tags.c
     CGamE_Renderer.c
+    CGamE_Component.c
 )
 target_link_libraries(${SHARED_LIB_NAME} 
     CCT 
