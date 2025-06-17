@@ -13,7 +13,8 @@ enum CGE_Object_type {
     CGE_OBJ_TYPE_UNDEFINED,
     CGE_OBJ_TYPE_RESOURCE,
     CGE_OBJ_TYPE_COMPONENT_SYSTEM,
-    CGE_OBJ_TYPE_RENDERER
+    CGE_OBJ_TYPE_RENDERER,
+    CGE_OBJ_TYPE_IO
 };
 
 struct CGE_Object {
@@ -34,6 +35,9 @@ CGE_API CGE_Bool CGE_ObjectHasTag (CGE_Context *Context, CGE_Object_id ObjId, CG
 
 // returns object type by its id
 // return CGE_OBJ_TYPE_UNDEFINED if object is deleted or it's actual type
-CGE_API CGE_Object_type CGE_GetObjectType(CGE_Context *Context, CGE_Object_id ObjId);
+CGE_API CGE_Object_type CGE_GetObjectType (CGE_Context *Context, CGE_Object_id ObjId);
+
+// unsafe, make sure to do all type checks because of scary `void *`
+CGE_API CGE_pVoid_t CGE_GetObjectData (CGE_Context *Context, CGE_Object_id ObjId);
 
 #endif

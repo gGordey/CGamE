@@ -9,9 +9,8 @@
 int main() {
     CGE_Context Context = CGE_CreateContext();
     // Create that Zero-object for safety reasons
-    CGE_CreateObject(&Context, CGE_OBJ_TYPE_UNDEFINED, CGE_OBJECT_TAG_ETERNAL);
-    CGE_Object_id cs = CGE_CreateComponentSystem(&Context);
-    CGE_ComponentSystemAddComponent(&Context, cs, 0, CGE_COMPONENT_TYPE_3D_TRANSFORM);   
+    CGE_CreateObject(&Context, CGE_OBJ_TYPE_UNDEFINED, CGE_OBJECT_TAG_ETERNAL);   
+    
     CGE_Object_id Renderer = CGE_CreateRenderer(&Context);
     CGE_Bool RendererDestroyed = CGE_False;
     while (1) {

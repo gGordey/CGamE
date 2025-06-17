@@ -65,6 +65,7 @@ typedef struct CGE_Hook CGE_Hook;
 typedef struct CGE_Renderer CGE_Renderer;
 // Component system is object with type CGE_OBJ_TYPE_COMPONENT_SYSTEM
 typedef struct CGE_ComponentSystem CGE_ComponentSystem;
+typedef struct CGE_IO CGE_IO;
 
 typedef enum CGE_Message_type CGE_Message_type;
 typedef enum CGE_Hook_type CGE_Hook_type;
@@ -88,5 +89,6 @@ typedef void (*CGE_Hook_Callback_t)(CGE_Context*, CGE_Object_id, int64_t);
 #include <CGamE_Log.h>
 #include <CGamE_Renderer.h>
 #include <CGamE_Component.h>
+#include <CGamE_IO.h>
 
 #endif

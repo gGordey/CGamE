@@ -15,6 +15,9 @@ CGE_Object_id CGE_CreateObject (CGE_Context *Context, CGE_Object_type type, CGE_
         case CGE_OBJ_TYPE_COMPONENT_SYSTEM:
             Object->data = malloc(sizeof(CGE_ComponentSystem));
             break;
+        case CGE_OBJ_TYPE_IO:
+            Object->data = malloc(sizeof(CGE_IO));
+            break;
         default:
             Object->data = malloc(1);
             break;
@@ -68,4 +71,8 @@ CGE_Object_type CGE_GetObjectType(CGE_Context *Context, CGE_Object_id ObjId) {
         return CGE_OBJ_TYPE_UNDEFINED;
     }
     return Object->type;
+}
+
+CGE_pVoid_t CGE_GetObjectData (CGE_Context *Context, CGE_Object_id ObjId) {
+    return (CGE_pVoid_t)CGE_IndexObject(Context, ObjId)->data;
 }
