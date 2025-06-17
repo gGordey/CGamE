@@ -1,3 +1,4 @@
 build
+msvc-build
 src/shader
 .vscode

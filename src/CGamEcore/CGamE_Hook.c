@@ -12,15 +12,8 @@ CGE_Object_id CGE_CreateHook (CGE_Context *Context, CGE_Hook_Callback_t Callback
 
 void CGE_AttachHook (CGE_Context *Context, CGE_Hook_Callback_t Callback, CGE_Hook_type type, CGE_Object_id hook) {
     CGE_Hook *Hook = CGE_IndexHook(Context, hook);
-    // if (Hook->type != CGE_OBJ_TYPE_RENDERER) {
-    //     CGE_LogErrorWrongObjectType(Context, hook, 
-    //         "CGE_OBJ_TYPE_HOOK", "CGE_AttachHook"
-    //     );
-    //     CGE_Terminate();
-    //     return;
-    // }
+    // set CGE_Object.data to CGE_Hook struct
     *Hook = (CGE_Hook){
-        // set CGE_Object.data to CGE_Hook struct
         .Callback = Callback,
         .type = type
     };

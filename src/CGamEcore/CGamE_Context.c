@@ -96,7 +96,7 @@ CGE_Object* CGE_IndexObject (CGE_Context *Context, CGE_Object_id ObjId) {
     return Object;
 }
 
-CGE_API CGE_Hook* CGE_IndexHook (CGE_Context *Context, CGE_Object_id HookId) {
+CGE_Hook* CGE_IndexHook (CGE_Context *Context, CGE_Object_id HookId) {
     if (HookId > Context->Hooks.size || HookId < 0) {
         CGE_LogErrorInvalidIndexVector(
             Context, 

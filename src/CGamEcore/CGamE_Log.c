@@ -12,7 +12,21 @@ void CGE_Terminate(void) {
     terminateStatus = CGE_True;
 }
 
+#ifdef _WIN32
+void CGE_LogEnableColors () {
+    DWORD consoleMode;
+    HANDLE outputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (GetConsoleMode(outputHandle, &consoleMode)) {
+        SetConsoleMode(outputHandle, consoleMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
+    }
+}
+#else
+void CGE_LogEnableColors () {}
+#endif
+
 const char* CGE_LoggingColor (CGE_Message_type type) {
+    // No colors for Visual Studio because it doesnt want to recognize "\e...." 
+#ifndef _MSC_VER
     switch (type) {
         case CGE_MSG_TYPE_SUCCESS:
             return "\e[0;92m";
@@ -27,6 +41,9 @@ const char* CGE_LoggingColor (CGE_Message_type type) {
         default:
             return "\e[0m";
     }
+#else
+    return "";
+#endif
 }
 
 void CGE_LogString (const char *msg, CGE_Message_type type) {

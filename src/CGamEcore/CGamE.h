@@ -7,8 +7,26 @@
 
 #include <stdint.h>
 
-#define CGE_API extern
-#define CGE_LOG_COL_RESET "\e[0m"
+#ifdef _WIN32
+    #include <Windows.h>
+#endif
+
+#ifdef _MSC_VER
+    #ifdef CGE_API_BUILD_DLL
+        #define CGE_API __declspec(dllexport)
+    #else
+        #define CGE_API __declspec(dllimport)
+    #endif
+    // Resets console output color
+    #define CGE_LOG_COL_RESET ""
+#else
+    #define CGE_API extern
+    // Resets console output color
+    #define CGE_LOG_COL_RESET "\e[0m"
+#endif
+
+
+
 
 #define CGE_LOG_MSG_SUCCESS "[ + ]"
 #define CGE_LOG_MSG_ERROR   "[ X ]"
@@ -23,9 +41,9 @@ typedef int32_t CGE_i32_t;
 typedef uint8_t CGE_ui8_t;
 typedef int8_t CGE_i8_t;
 
+// just in case
 #ifdef _MSC_VER
-    // mostly to shut up MSC
-    typedef char *CGE_pVoid_t;
+    typedef void *CGE_pVoid_t;
 #else
     typedef void *CGE_pVoid_t;
 #endif

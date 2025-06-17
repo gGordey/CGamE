@@ -14,6 +14,9 @@ enum CGE_Message_type {
 CGE_API CGE_Bool CGE_ShouldTerminate(void);
 CGE_API void CGE_Terminate(void);
 
+// does something only on windows to show colors
+CGE_API void CGE_LogEnableColors ();
+
 CGE_API const char* CGE_LoggingColor (CGE_Message_type type);
 
 CGE_API void CGE_LogString (const char *msg, CGE_Message_type type);

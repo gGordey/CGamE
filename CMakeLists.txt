@@ -1,7 +1,13 @@
 cmake_minimum_required(VERSION 3.10)
 
-set(CMAKE_C_COMPILER "gcc")
-set(CMAKE_C_FLAGS "-O3 -L .")
+if (CMAKE_GENERATOR STREQUAL "Visual Studio 17 2022" OR 
+    CMAKE_GENERATOR STREQUAL "Visual Studio 16 2019")
+    # MSVC 
+    set(CMAKE_C_FLAGS "/D CGE_API_BUILD_DLL")
+else ()
+    set(CMAKE_C_COMPILER "gcc")
+    set(CMAKE_C_FLAGS "-O3 -L . -D CGE_API_BUILD_DLL")
+endif()
 
 set(OUTPUT_DIR "${CMAKE_BINARY_DIR}/bin")
 set(SRC_DIR "${CMAKE_SOURCE_DIR}/src")
