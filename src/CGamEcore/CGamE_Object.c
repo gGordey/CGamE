@@ -61,3 +61,11 @@ CGE_Bool CGE_ObjectHasTag (CGE_Context* Context, CGE_Object_id ObjId, CGE_Object
     }
     return Object->tags & tag;
 }
+
+CGE_Object_type CGE_GetObjectType(CGE_Context *Context, CGE_Object_id ObjId) {
+    CGE_Object *Object = CGE_IndexObject(Context, ObjId);
+    if (Object->objId == UINT32_MAX) {
+        return CGE_OBJ_TYPE_UNDEFINED;
+    }
+    return Object->type;
+}

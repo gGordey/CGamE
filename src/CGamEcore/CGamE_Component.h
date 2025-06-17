@@ -14,8 +14,8 @@ enum CGE_Component_type {
 struct CGE_ComponentSystem {
     // contains adresses of components
     // static array for constant-time indexing
+    // 0 if component is inactive
     CGE_Object_id ComponentIds[CGE_COMPONENT_TYPES_COUNT];
-    CGE_ui32_t ActiveComponents;
 };
 
 CGE_API CGE_Object_id CGE_CreateComponentSystem (CGE_Context *Context);
@@ -32,9 +32,16 @@ CGE_API CGE_Bool CGE_ComponentSystemHasComponent (CGE_Context *Context, CGE_Obje
 // NULL if errored
 CGE_API CGE_ComponentSystem *CGE_GetComponentSystem (CGE_Context *Context, CGE_Object_id ComponentSystemId);
 
-// sets active component to given state
-// CGE_True if sucseeded
-// CGE_False if something went wrong
-CGE_API CGE_Bool CGE_ComponentSystemSetActiveComponent (CGE_Context *Context, CGE_Object_id ComponentSystemId, CGE_Component_type TargetComponent, CGE_Bool State);
+// returns id of component
+// 0 if component is inactive
+CGE_API CGE_Object_id CGE_ComponentSystemGetComponent (CGE_Context *Context, CGE_Object_id ComponentSystemId, CGE_Component_type TargetComponent);
+
+// It only deattaches component, not destroyes it
+// (sets component ID for given target to 0)
+// you would need to destroy object yourself or else use CGE_DestroyComponentSystem
+CGE_API void CGE_ComponentSystemDeattachComponent (CGE_Context *Context, CGE_Object_id ComponentSystemId, CGE_Component_type TargetComponent);
+
+// destroyes all components
+CGE_API void CGE_DestroyComponentSystem (CGE_Context *Context, CGE_Object_id ComponentSystemId);
 
 #endif

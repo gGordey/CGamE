@@ -3,7 +3,6 @@
 CGE_Object_id CGE_CreateComponentSystem (CGE_Context *Context) {
     CGE_Object_id CompSysId = CGE_CreateObject(Context, CGE_OBJ_TYPE_COMPONENT_SYSTEM, 0);
     *CGE_GetComponentSystem(Context, CompSysId) = (CGE_ComponentSystem){
-        .ActiveComponents = 0,
         .ComponentIds = {0}
     };
     return CompSysId;
@@ -23,7 +22,6 @@ CGE_Bool CGE_ComponentSystemAddComponent (CGE_Context *Context, CGE_Object_id Co
         );
         return CGE_False;
     }
-    CGE_ComponentSystemSetActiveComponent(Context, ComponentSystemId, ComponentType, CGE_True);
     ComponentSystem->ComponentIds[ComponentType] = NewComponentId;
     return CGE_True;
 }
@@ -33,7 +31,7 @@ CGE_Bool CGE_ComponentSystemHasComponent (CGE_Context *Context, CGE_Object_id Co
     if (ComponentSystem == NULL) {
         return CGE_False;
     }
-    return ComponentSystem->ActiveComponents & (CGE_ui32_t)1 << (CGE_ui32_t)ComponentType;
+    return ComponentSystem->ComponentIds[(CGE_ui32_t)ComponentType] > 0;
 }
 CGE_ComponentSystem *CGE_GetComponentSystem (CGE_Context *Context, CGE_Object_id ComponentSystemId) {
     CGE_Object *CompSysObj = CGE_IndexObject(Context, ComponentSystemId);
@@ -48,18 +46,49 @@ CGE_ComponentSystem *CGE_GetComponentSystem (CGE_Context *Context, CGE_Object_id
     return (CGE_ComponentSystem*)CompSysObj->data;
 }
 
-CGE_Bool CGE_ComponentSystemSetActiveComponent (CGE_Context *Context, CGE_Object_id ComponentSystemId, CGE_Component_type TargetComponent, CGE_Bool State) {
+CGE_Object_id CGE_ComponentSystemGetComponent (CGE_Context *Context, CGE_Object_id ComponentSystemId, CGE_Component_type TargetComponent) {
+    if (CGE_GetObjectType(Context, ComponentSystemId) != CGE_OBJ_TYPE_COMPONENT_SYSTEM) {
+        CGE_LogErrorWrongObjectType(
+            Context, ComponentSystemId,
+            "CGE_OBJ_TYPE_COMPONENT_SYSTEM", 
+            "CGE_ComponentSystemGetComponent"
+        );
+        return 0;
+    }
+    // dont use CGE_GetComponentSystem for perfomance reasons,
+    // here we are sure that object is CGE_CGE_ComponentSystem
+    CGE_Object_id TargetId = (
+        (CGE_ComponentSystem*)CGE_IndexObject(Context, ComponentSystemId)->data)
+        ->ComponentIds[(CGE_ui32_t)TargetComponent];
+    if (CGE_GetObjectType(Context, TargetId) == CGE_OBJ_TYPE_UNDEFINED) {
+        return 0;
+    }
+    return TargetId;
+}
+
+void CGE_ComponentSystemDeattachComponent (CGE_Context *Context, CGE_Object_id ComponentSystemId, CGE_Component_type TargetComponent) {
+    if (CGE_GetObjectType(Context, ComponentSystemId) != CGE_OBJ_TYPE_COMPONENT_SYSTEM) {
+        CGE_LogErrorWrongObjectType(
+            Context, ComponentSystemId,
+            "CGE_OBJ_TYPE_COMPONENT_SYSTEM", 
+            "CGE_ComponentSystemDeattachComponent"
+        );
+        return;
+    }
+    ((CGE_ComponentSystem*)CGE_IndexObject(Context, ComponentSystemId)->data
+        )->ComponentIds [(CGE_ui32_t)TargetComponent] = 0;
+}
+
+void CGE_DestroyComponentSystem (CGE_Context *Context, CGE_Object_id ComponentSystemId) {
     CGE_ComponentSystem *ComponentSystem = CGE_GetComponentSystem(Context, ComponentSystemId);
     if (ComponentSystem == NULL) {
-        return CGE_False;
+        return;
     }
-    if (!State && ComponentSystem->ActiveComponents & (CGE_ui32_t)1 << (CGE_ui32_t)TargetComponent) {
-        // component is active
-        ComponentSystem->ActiveComponents ^= (CGE_ui32_t)1 << (CGE_ui32_t)TargetComponent;
+    for (int i = 0; i < CGE_COMPONENT_TYPES_COUNT; ++i) {
+        if (ComponentSystem->ComponentIds[i] == 0) {
+            continue;
+        }
+        CGE_DestroyObject(Context, ComponentSystem->ComponentIds[i]);
     }
-    if (State && !(ComponentSystem->ActiveComponents & (CGE_ui32_t)1 << (CGE_ui32_t)TargetComponent)) {
-        // component is disabled
-        ComponentSystem->ActiveComponents |= (CGE_ui32_t)1 << (CGE_ui32_t)TargetComponent;
-    }
-    return CGE_True;
+    CGE_DestroyObject(Context, ComponentSystemId);
 }
