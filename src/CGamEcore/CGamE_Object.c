@@ -18,6 +18,9 @@ CGE_Object_id CGE_CreateObject (CGE_Context *Context, CGE_Object_type type, CGE_
         case CGE_OBJ_TYPE_IO:
             Object->data = malloc(sizeof(CGE_IO));
             break;
+        case CGE_OBJ_TYPE_CAMERA:
+            Object->data = malloc(sizeof(CGE_Camera));
+            break;
         default:
             Object->data = malloc(1);
             break;

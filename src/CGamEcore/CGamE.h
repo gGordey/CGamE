@@ -66,6 +66,11 @@ typedef struct CGE_Renderer CGE_Renderer;
 // Component system is object with type CGE_OBJ_TYPE_COMPONENT_SYSTEM
 typedef struct CGE_ComponentSystem CGE_ComponentSystem;
 typedef struct CGE_IO CGE_IO;
+typedef struct CGE_Vec2 CGE_Vec2;
+typedef struct CGE_Vec3 CGE_Vec3;
+typedef struct CGE_Vec4 CGE_Vec4;
+// Camera renders all objects that it can see
+typedef struct CGE_Camera CGE_Camera;
 
 typedef enum CGE_Message_type CGE_Message_type;
 typedef enum CGE_Hook_type CGE_Hook_type;
@@ -90,5 +95,7 @@ typedef void (*CGE_Hook_Callback_t)(CGE_Context*, CGE_Object_id, int64_t);
 #include <CGamE_Renderer.h>
 #include <CGamE_Component.h>
 #include <CGamE_IO.h>
+#include <CGamE_Vector.h>
+#include <CGamE_Camera.h>
 
 #endif
