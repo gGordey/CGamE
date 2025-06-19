@@ -24,9 +24,14 @@ CGE_API CGE_Object_id CGE_CreateComponentSystem (CGE_Context *Context);
 // CGE_True if sucseeded
 // CGE_False if something went wrong
 CGE_API CGE_Bool CGE_ComponentSystemAddComponent (CGE_Context *Context, CGE_Object_id ComponentSystemId, CGE_Object_id NewComponentId, CGE_Component_type ComponentType);
+// unsafe version of CGE_ComponentSystemAddComponent
+CGE_API void CGE_ComponentSystemAddComponent_unsafe (CGE_ComponentSystem *ComponentSystem, CGE_Object_id NewComponentId, CGE_Component_type ComponentType);
+
 
 // CGE_False if errored OR actual false
 CGE_API CGE_Bool CGE_ComponentSystemHasComponent (CGE_Context *Context, CGE_Object_id ComponentSystemId, CGE_Component_type ComponentType);
+// unsafe version of CGE_ComponentSystemHasComponent
+CGE_API CGE_Bool CGE_ComponentSystemHasComponent_unsafe (CGE_ComponentSystem *ComponentSystem, CGE_Component_type ComponentType);
 
 // returns pointer to Component system by id
 // NULL if errored
@@ -35,11 +40,15 @@ CGE_API CGE_ComponentSystem *CGE_GetComponentSystem (CGE_Context *Context, CGE_O
 // returns id of component
 // 0 if component is inactive
 CGE_API CGE_Object_id CGE_ComponentSystemGetComponent (CGE_Context *Context, CGE_Object_id ComponentSystemId, CGE_Component_type TargetComponent);
+// unsafe version of CGE_ComponentSystemGetComponent
+CGE_API CGE_Object_id CGE_ComponentSystemGetComponent_unsafe (CGE_ComponentSystem *ComponentSystem, CGE_Component_type TargetComponent);
 
 // It only deattaches component, not destroyes it
 // (sets component ID for given target to 0)
 // you would need to destroy object yourself or else use CGE_DestroyComponentSystem
 CGE_API void CGE_ComponentSystemDeattachComponent (CGE_Context *Context, CGE_Object_id ComponentSystemId, CGE_Component_type TargetComponent);
+// unsafe version of CGE_ComponentSystemDeattachComponent
+CGE_API void CGE_ComponentSystemDeattachComponent_unsafe (CGE_ComponentSystem *ComponentSystem, CGE_Component_type TargetType);
 
 // destroyes all components
 CGE_API void CGE_DestroyComponentSystem (CGE_Context *Context, CGE_Object_id ComponentSystemId);

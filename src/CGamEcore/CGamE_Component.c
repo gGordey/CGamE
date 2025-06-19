@@ -25,6 +25,9 @@ CGE_Bool CGE_ComponentSystemAddComponent (CGE_Context *Context, CGE_Object_id Co
     ComponentSystem->ComponentIds[ComponentType] = NewComponentId;
     return CGE_True;
 }
+void CGE_ComponentSystemAddComponent_unsafe (CGE_ComponentSystem *ComponentSystem, CGE_Object_id NewComponentId, CGE_Component_type ComponentType) {
+    ComponentSystem->ComponentIds[ComponentType] = NewComponentId;
+}
 
 CGE_Bool CGE_ComponentSystemHasComponent (CGE_Context *Context, CGE_Object_id ComponentSystemId, CGE_Component_type ComponentType) {
     CGE_ComponentSystem *ComponentSystem = CGE_GetComponentSystem(Context, ComponentSystemId);
@@ -33,6 +36,10 @@ CGE_Bool CGE_ComponentSystemHasComponent (CGE_Context *Context, CGE_Object_id Co
     }
     return ComponentSystem->ComponentIds[(CGE_ui32_t)ComponentType] > 0;
 }
+CGE_Bool CGE_ComponentSystemHasComponent_unsafe (CGE_ComponentSystem *ComponentSystem, CGE_Component_type ComponentType) {
+    return ComponentSystem->ComponentIds[(CGE_ui32_t)ComponentType] > 0;
+}
+
 CGE_ComponentSystem *CGE_GetComponentSystem (CGE_Context *Context, CGE_Object_id ComponentSystemId) {
     CGE_Object *CompSysObj = CGE_IndexObject(Context, ComponentSystemId);
     if (CompSysObj->type != CGE_OBJ_TYPE_COMPONENT_SYSTEM) {
@@ -65,6 +72,9 @@ CGE_Object_id CGE_ComponentSystemGetComponent (CGE_Context *Context, CGE_Object_
     }
     return TargetId;
 }
+CGE_Object_id CGE_ComponentSystemGetComponent_unsafe (CGE_ComponentSystem *ComponentSystem, CGE_Component_type TargetComponent) {
+    return ComponentSystem->ComponentIds[TargetComponent];
+}
 
 void CGE_ComponentSystemDeattachComponent (CGE_Context *Context, CGE_Object_id ComponentSystemId, CGE_Component_type TargetComponent) {
     if (CGE_GetObjectType(Context, ComponentSystemId) != CGE_OBJ_TYPE_COMPONENT_SYSTEM) {
@@ -75,8 +85,11 @@ void CGE_ComponentSystemDeattachComponent (CGE_Context *Context, CGE_Object_id C
         );
         return;
     }
-    ((CGE_ComponentSystem*)CGE_IndexObject(Context, ComponentSystemId)->data
-        )->ComponentIds [(CGE_ui32_t)TargetComponent] = 0;
+    ((CGE_ComponentSystem*)CGE_GetObjectData(Context, ComponentSystemId))
+        ->ComponentIds[TargetComponent] = 0;
+}
+void CGE_ComponentSystemDeattachComponent_unsafe (CGE_ComponentSystem *ComponentSystem, CGE_Component_type TargetType) {
+    ComponentSystem->ComponentIds[TargetType] = 0;
 }
 
 void CGE_DestroyComponentSystem (CGE_Context *Context, CGE_Object_id ComponentSystemId) {

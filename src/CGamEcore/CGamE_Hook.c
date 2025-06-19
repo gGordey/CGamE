@@ -12,6 +12,9 @@ CGE_Object_id CGE_CreateHook (CGE_Context *Context, CGE_Hook_Callback_t Callback
 
 void CGE_AttachHook (CGE_Context *Context, CGE_Hook_Callback_t Callback, CGE_Hook_type type, CGE_Object_id hook) {
     CGE_Hook *Hook = CGE_IndexHook(Context, hook);
+    if (Hook == NULL) {
+        return;
+    }
     // set CGE_Object.data to CGE_Hook struct
     *Hook = (CGE_Hook){
         .Callback = Callback,
@@ -19,15 +22,23 @@ void CGE_AttachHook (CGE_Context *Context, CGE_Hook_Callback_t Callback, CGE_Hoo
     };
 }
 
-void CGE_DeattachHook (CGE_Context *Context, CGE_Object_id hook) {
-    if (CGE_IndexObject(Context, hook)->type != CGE_OBJ_TYPE_RENDERER) {
-        CGE_LogErrorWrongObjectType(Context, hook, 
-            "CGE_OBJ_TYPE_HOOK", "CGE_DeattachHook"
-        );
-        CGE_Terminate();
+void CGE_AttachHook_unsafe (CGE_Hook_Callback_t Callback, CGE_Hook_type type, CGE_Hook *Hook) {
+    *Hook = (CGE_Hook){
+        .Callback = Callback,
+        .type = type
+    };
+}
+
+void CGE_DeattachHook (CGE_Context *Context, CGE_Object_id HookId) {
+    CGE_Hook *Hook = CGE_IndexHook(Context, HookId);
+    if (Hook == NULL) {
         return;
     }
-    CGE_AttachHook (Context, &CGE_NullCallback, CGE_HOOK_DEATTACHED, hook);
+    CGE_DeattacHook_unsafe(Hook);
+}
+
+void CGE_DeattacHook_unsafe(CGE_Hook *Hook) {
+    CGE_AttachHook_unsafe(&CGE_NullCallback, CGE_HOOK_DEATTACHED, Hook);
 }
 
 void CGE_ActivateHookUpdate (CGE_Context *Context) {

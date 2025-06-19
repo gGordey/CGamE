@@ -30,6 +30,11 @@ CGE_API CGE_Object_id CGE_CreateHook (CGE_Context *Context, CGE_Hook_Callback_t 
 CGE_API void CGE_AttachHook (CGE_Context *Context, CGE_Hook_Callback_t Callback, CGE_Hook_type type, CGE_Object_id hook);
 CGE_API void CGE_DeattachHook (CGE_Context *Context, CGE_Object_id hook);
 
+// Unsafe version of CGE_AttachHook
+CGE_API void CGE_AttachHook_unsafe (CGE_Hook_Callback_t Callback, CGE_Hook_type type, CGE_Hook *Hook);
+// Unsafe version of CGE_DeattachHook
+CGE_API void CGE_DeattacHook_unsafe(CGE_Hook *Hook);
+
 // Activates all hooks with type CGE_HOOK_UPDATE
 // At the start of the frame
 // Arguments `CGE_Object_id` and `int64_t` are 0

@@ -18,16 +18,11 @@ CGE_Bool CGE_IsPointInCameraRange (CGE_Context *Context, CGE_Object_id CameraId,
         return CGE_False;
     }
     CGE_Camera *Camera = (CGE_Camera*)CGE_GetObjectData(Context, CameraId);
-    const CGE_Vec2 CameraTopLeft = CGE_newVec2(
-        Camera->Pos.x - Camera->Size.x/2,
-        Camera->Pos.y - Camera->Size.y/2
-    );
-    const CGE_Vec2 CameraBottomRight = CGE_newVec2(
-        Camera->Pos.x + Camera->Size.x/2,
-        Camera->Pos.y + Camera->Size.y/2
-    );
-    return  Point.x > CameraTopLeft.x &&
-            Point.x < CameraBottomRight.x &&
-            Point.y > CameraTopLeft.y &&
-            Point.y < CameraBottomRight.y;
+    return CGE_IsPointInCameraRange_unsafe(Camera, Point);
+}
+CGE_Bool CGE_IsPointInCameraRange_unsafe (CGE_Camera *Camera, CGE_Vec2 Point) {
+    return  Point.x > Camera->Pos.x - Camera->Size.x/2 &&
+            Point.x < Camera->Pos.x + Camera->Size.x/2 &&
+            Point.y > Camera->Pos.y - Camera->Size.y/2 &&
+            Point.y < Camera->Pos.y + Camera->Size.y/2;
 }

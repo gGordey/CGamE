@@ -26,8 +26,6 @@
 #endif
 
 
-
-
 #define CGE_LOG_MSG_SUCCESS "[ + ]"
 #define CGE_LOG_MSG_ERROR   "[ X ]"
 #define CGE_LOG_MSG_WARNING "[ ! ]"
