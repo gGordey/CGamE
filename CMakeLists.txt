@@ -6,8 +6,10 @@ if (CMAKE_GENERATOR STREQUAL "Visual Studio 17 2022" OR
     set(CMAKE_C_FLAGS "/D CGE_API_BUILD_DLL")
 else ()
     set(CMAKE_C_COMPILER "gcc")
-    set(CMAKE_C_FLAGS "-O3 -L . -D CGE_API_BUILD_DLL")
+    set(CMAKE_C_FLAGS "-D CGE_API_BUILD_DLL")
 endif()
+
+option(BUILD_CGE_TESTS OFF)
 
 set(OUTPUT_DIR "${CMAKE_BINARY_DIR}/bin")
 set(SRC_DIR "${CMAKE_SOURCE_DIR}/src")
@@ -29,3 +31,6 @@ add_subdirectory(lib/CommonCTypes) # CCT.a
 add_subdirectory(lib/glfw) # glfw.lib
 add_subdirectory(src/CGamEcore) # CGamEruntime.dll & CGamEcore.exe
 add_subdirectory(src/Sandbox) # CGamEsandbox.exe
+if (BUILD_CGE_TESTS)
+    add_subdirectory(tests)
+endif()

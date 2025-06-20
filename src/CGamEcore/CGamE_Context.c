@@ -22,7 +22,6 @@ CGE_Context CGE_CreateContext () {
 
 void CGE_DestroyContext (CGE_Context *Context) {
     for (int i = 0; i < Context->Objects.size; ++i) {
-        // if (((CGE_Object*)_cvec_at(&Context->Objects, i))->objId != UINT32_MAX)
         CGE_DestroyObject(Context, i);
     }
     _cvec_free(&Context->Objects);
@@ -61,22 +60,22 @@ CGE_Object_id CGE_CreateSpaceForObject (CGE_Context *Context, CGE_Context_Target
         _cvec_push(VecTarget, &o);
         freeId = VecTarget->size - 1;
     }
-
-    // ((CGE_Object*)_cvec_at(VecTarget, freeId))->objId = freeId;
     return freeId;
 }
 
 void CGE_FreeSpaceFromObject (CGE_Context *Context, CGE_Object_id ObjId) {
-    // ((CGE_Object*)_cvec_at(&Context->Objects, ObjId))->objId = UINT32_MAX;
-
+    if (!CGE_IsObjectIdValid(Context, ObjId)) {
+        return;
+    }
     if (Context->FreeSpaces.size >= Context->FreeSpaces.cap-1) {
         _cvec_reserve(&Context->FreeSpaces, SPACE_TO_RESERVE);
     }
     _cvec_push(&Context->FreeSpaces, &ObjId);
+    CGE_IndexObject(Context, ObjId)->tags = CGE_OBJ_TYPE_UNDEFINED;
 }
 
 CGE_Object* CGE_IndexObject (CGE_Context *Context, CGE_Object_id ObjId) {
-    if (ObjId > Context->Objects.size) {
+    if (!CGE_IsObjectIdValid(Context, ObjId)) {
         CGE_LogErrorInvalidIndexVector(
             Context, 
             &Context->Objects, 
@@ -87,16 +86,11 @@ CGE_Object* CGE_IndexObject (CGE_Context *Context, CGE_Object_id ObjId) {
         return NULL;
     } 
     CGE_Object *Object = (CGE_Object*)_cvec_at(&Context->Objects, ObjId);
-    
-    // if (Object->objId == UINT32_MAX) {
-    //     // ERROR HERE;
-    //     exit(1);
-    // }
     return Object;
 }
 
 CGE_Hook* CGE_IndexHook (CGE_Context *Context, CGE_Object_id HookId) {
-    if (HookId > Context->Hooks.size || HookId < 0) {
+    if (HookId >= Context->Hooks.size || HookId < 0) {
         CGE_LogErrorInvalidIndexVector(
             Context, 
             &Context->Hooks, 
@@ -107,4 +101,8 @@ CGE_Hook* CGE_IndexHook (CGE_Context *Context, CGE_Object_id HookId) {
         return NULL;
     } 
     return (CGE_Hook*)_cvec_at(&Context->Hooks, HookId);
+}
+
+CGE_Bool CGE_IsObjectIdValid(CGE_Context *Context, CGE_Object_id id) {
+    return id >= 0 && id < Context->Objects.size; 
 }

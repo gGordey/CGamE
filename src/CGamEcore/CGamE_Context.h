@@ -46,4 +46,6 @@ CGE_API CGE_Object* CGE_IndexObject (CGE_Context *Context, CGE_Object_id ObjId);
 
 CGE_API CGE_Hook* CGE_IndexHook (CGE_Context *Context, CGE_Object_id HookId);
 
+CGE_API CGE_Bool CGE_IsObjectIdValid(CGE_Context *Context, CGE_Object_id id);
+
 #endif

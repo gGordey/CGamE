@@ -1,4 +1,5 @@
 build
 msvc-build
+tests-build
 src/shader
 .vscode

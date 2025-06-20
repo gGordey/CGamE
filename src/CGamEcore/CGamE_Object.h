@@ -37,6 +37,7 @@ CGE_API CGE_Object_id CGE_CreateObject (CGE_Context *Context, CGE_Object_type ty
 
 CGE_API void CGE_DestroyObject (CGE_Context *Context, CGE_Object_id index);
 
+// CGE_False if object is not valid
 CGE_API CGE_Bool CGE_ObjectHasTag (CGE_Context *Context, CGE_Object_id ObjId, CGE_Object_tag tag);
 
 // returns object type by its id

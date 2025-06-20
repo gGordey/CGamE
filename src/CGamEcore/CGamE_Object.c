@@ -16,6 +16,9 @@ CGE_Object_id CGE_CreateObject (CGE_Context *Context, CGE_Object_type type, CGE_
 }
 
 void CGE_DestroyObject (CGE_Context *Context, CGE_Object_id index) {
+    if (!CGE_IsObjectIdValid(Context, index)) {
+        return;
+    }
     CGE_Object *Object = CGE_IndexObject(Context, index);
     if (CGE_ObjectHasTag(Context, index, CGE_OBJECT_TAG_ETERNAL)) {
         CGE_LogString(
@@ -31,11 +34,20 @@ void CGE_DestroyObject (CGE_Context *Context, CGE_Object_id index) {
 }
 
 CGE_Bool CGE_ObjectHasTag (CGE_Context* Context, CGE_Object_id ObjId, CGE_Object_tag tag) {
+    if (!CGE_IsObjectIdValid(Context, ObjId)) {
+        return CGE_False;
+    }
     CGE_Object *Object = CGE_IndexObject(Context, ObjId);
+    if (Object == NULL) {
+        return CGE_False;
+    }
     return Object->tags & tag;
 }
 
 CGE_Object_type CGE_GetObjectType(CGE_Context *Context, CGE_Object_id ObjId) {
     CGE_Object *Object = CGE_IndexObject(Context, ObjId);
+    if (Object == NULL) {
+        return CGE_OBJ_TYPE_UNDEFINED;
+    }
     return Object->type;
 }

@@ -11,6 +11,9 @@ CGE_Object_id CGE_CreateCamera (CGE_Context *Context, CGE_Vec2 Size) {
 
 CGE_Bool CGE_IsPointInCameraRange (CGE_Context *Context, CGE_Object_id CameraId, CGE_Vec2 Point) {
     CGE_Object *CameraObj = CGE_IndexObject(Context, CameraId);
+    if (CameraObj == NULL) {
+        return CGE_False;
+    }
     if (CameraObj->type != CGE_OBJ_TYPE_CAMERA) {
         CGE_LogErrorWrongObjectType (
             Context, CameraId,
