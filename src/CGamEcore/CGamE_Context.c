@@ -22,9 +22,8 @@ CGE_Context CGE_CreateContext () {
 
 void CGE_DestroyContext (CGE_Context *Context) {
     for (int i = 0; i < Context->Objects.size; ++i) {
-        if (((CGE_Object*)_cvec_at(&Context->Objects, i))->objId != UINT32_MAX) {
-            CGE_DestroyObject(Context, i);
-        }
+        // if (((CGE_Object*)_cvec_at(&Context->Objects, i))->objId != UINT32_MAX)
+        CGE_DestroyObject(Context, i);
     }
     _cvec_free(&Context->Objects);
     _cvec_free(&Context->FreeSpaces);
@@ -63,12 +62,12 @@ CGE_Object_id CGE_CreateSpaceForObject (CGE_Context *Context, CGE_Context_Target
         freeId = VecTarget->size - 1;
     }
 
-    ((CGE_Object*)_cvec_at(VecTarget, freeId))->objId = freeId;
+    // ((CGE_Object*)_cvec_at(VecTarget, freeId))->objId = freeId;
     return freeId;
 }
 
 void CGE_FreeSpaceFromObject (CGE_Context *Context, CGE_Object_id ObjId) {
-    ((CGE_Object*)_cvec_at(&Context->Objects, ObjId))->objId = UINT32_MAX;
+    // ((CGE_Object*)_cvec_at(&Context->Objects, ObjId))->objId = UINT32_MAX;
 
     if (Context->FreeSpaces.size >= Context->FreeSpaces.cap-1) {
         _cvec_reserve(&Context->FreeSpaces, SPACE_TO_RESERVE);

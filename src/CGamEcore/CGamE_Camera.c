@@ -2,7 +2,7 @@
 
 CGE_Object_id CGE_CreateCamera (CGE_Context *Context, CGE_Vec2 Size) {
     CGE_Object_id CameraId = CGE_CreateObject(Context, CGE_OBJ_TYPE_CAMERA, 0);
-    *((CGE_Camera*)CGE_GetObjectData(Context, CameraId)) = (CGE_Camera){
+    CGE_IndexObject(Context, CameraId)->data.Camera = (CGE_Camera){
         .Pos = CGE_newVec2(0,0),
         .Size = Size
     };
@@ -10,14 +10,15 @@ CGE_Object_id CGE_CreateCamera (CGE_Context *Context, CGE_Vec2 Size) {
 }
 
 CGE_Bool CGE_IsPointInCameraRange (CGE_Context *Context, CGE_Object_id CameraId, CGE_Vec2 Point) {
-    if (CGE_GetObjectType(Context, CameraId) != CGE_OBJ_TYPE_CAMERA) {
+    CGE_Object *CameraObj = CGE_IndexObject(Context, CameraId);
+    if (CameraObj->type != CGE_OBJ_TYPE_CAMERA) {
         CGE_LogErrorWrongObjectType (
             Context, CameraId,
             "CGE_OBJ_TYPE_CAMERA", "CGE_IsPointInCameraRange"
         );
         return CGE_False;
     }
-    CGE_Camera *Camera = (CGE_Camera*)CGE_GetObjectData(Context, CameraId);
+    CGE_Camera *Camera = &CameraObj->data.Camera;
     return CGE_IsPointInCameraRange_unsafe(Camera, Point);
 }
 CGE_Bool CGE_IsPointInCameraRange_unsafe (CGE_Camera *Camera, CGE_Vec2 Point) {

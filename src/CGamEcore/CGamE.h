@@ -87,7 +87,6 @@ typedef void (*CGE_Hook_Callback_t)(CGE_Context*, CGE_Object_id, int64_t);
 #include <CGamE_Tags.h>
 
 #include <CGamE_Context.h>
-#include <CGamE_Object.h>
 #include <CGamE_Hook.h>
 #include <CGamE_Log.h>
 #include <CGamE_Renderer.h>
@@ -95,5 +94,6 @@ typedef void (*CGE_Hook_Callback_t)(CGE_Context*, CGE_Object_id, int64_t);
 #include <CGamE_IO.h>
 #include <CGamE_Vector.h>
 #include <CGamE_Camera.h>
+#include <CGamE_Object.h>
 
 #endif

@@ -19,15 +19,20 @@ enum CGE_Object_type {
 };
 
 struct CGE_Object {
-    // index in the CGE_Context. 
-    //UINT32_MAX if obj is deleted but not overrided or isn't initializes yet 
-    CGE_Object_id objId; 
     CGE_Object_tag tags;
     CGE_Object_type type;
-    CGE_pVoid_t data;
+    union CGE_ObjectInneer {
+        CGE_ComponentSystem ComponentSystem;
+        CGE_Renderer Renderer;
+        CGE_IO IO;
+        CGE_Camera Camera;
+        CGE_Vec2 Vec2;
+        CGE_Vec3 Vec3;
+        CGE_Vec4 Vec4;
+    } data;
 };
 
-// Creates a CGE_Object in the given CGE_Context. Returns an index of the created object inside the CGE_Context
+// Creates a CGE_Object in the given CGE_Contesxt. Returns an index of the created object inside the CGE_Context
 CGE_API CGE_Object_id CGE_CreateObject (CGE_Context *Context, CGE_Object_type type, CGE_Object_tag tags);
 
 CGE_API void CGE_DestroyObject (CGE_Context *Context, CGE_Object_id index);
@@ -37,8 +42,5 @@ CGE_API CGE_Bool CGE_ObjectHasTag (CGE_Context *Context, CGE_Object_id ObjId, CG
 // returns object type by its id
 // return CGE_OBJ_TYPE_UNDEFINED if object is deleted or it's actual type
 CGE_API CGE_Object_type CGE_GetObjectType (CGE_Context *Context, CGE_Object_id ObjId);
-
-// unsafe, make sure to do all type checks because of scary `void *`
-CGE_API CGE_pVoid_t CGE_GetObjectData (CGE_Context *Context, CGE_Object_id ObjId);
 
 #endif

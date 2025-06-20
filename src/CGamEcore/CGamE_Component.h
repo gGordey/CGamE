@@ -33,10 +33,6 @@ CGE_API CGE_Bool CGE_ComponentSystemHasComponent (CGE_Context *Context, CGE_Obje
 // unsafe version of CGE_ComponentSystemHasComponent
 CGE_API CGE_Bool CGE_ComponentSystemHasComponent_unsafe (CGE_ComponentSystem *ComponentSystem, CGE_Component_type ComponentType);
 
-// returns pointer to Component system by id
-// NULL if errored
-CGE_API CGE_ComponentSystem *CGE_GetComponentSystem (CGE_Context *Context, CGE_Object_id ComponentSystemId);
-
 // returns id of component
 // 0 if component is inactive
 CGE_API CGE_Object_id CGE_ComponentSystemGetComponent (CGE_Context *Context, CGE_Object_id ComponentSystemId, CGE_Component_type TargetComponent);

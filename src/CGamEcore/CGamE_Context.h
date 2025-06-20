@@ -2,7 +2,6 @@
 #define CGamE_context_h
 
 #include <CGamE.h>
-#include <CGamE_Object.h>
 
 #include <CommonCTypes/vector.h>
 
