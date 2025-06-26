@@ -10,8 +10,10 @@ int main() {
     CGE_Context Context = CGE_CreateContext();
     // Create that Zero-object for safety reasons
     CGE_CreateObject(&Context, CGE_OBJ_TYPE_UNDEFINED, CGE_OBJECT_TAG_ETERNAL);   
-    
-    CGE_Object_id Renderer = CGE_CreateRenderer(&Context);
+	CGE_Object_id Renderer = CGE_CreateRenderer(&Context);
+ 	CGE_Object_id IOid = CGE_CreateIO(&Context);
+	CGE_IOSetString(&Context, IOid, "This Is IOOO");
+	CGE_IOWriteToFile(&Context, IOid, "Filename.txt");
     CGE_Bool RendererDestroyed = CGE_False;
     while (1) {
         // main loop

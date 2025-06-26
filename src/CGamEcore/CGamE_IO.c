@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <malloc.h> 
+#include <CommonCTypes/string.h>
 
 CGE_Object_id CGE_CreateIO(CGE_Context *Context) {
     CGE_Object_id IOid = CGE_CreateObject(Context, CGE_OBJ_TYPE_IO, 0);
@@ -26,7 +27,13 @@ void CGE_DestroyIO(CGE_Context *Context, CGE_Object_id IOid) {
 }
 
 CGE_Bool CGE_IOReadFile(CGE_Context *Context, CGE_Object_id IOid, const char *FileName) {
+	if (!CGE_IsObjectIdValid(Context, IOid)) {
+		return CGE_False;
+	}
     CGE_Object *IOobj = CGE_IndexObject(Context, IOid);
+	if (IOobj == NULL) {
+		return CGE_False;
+	}
     if (IOobj->type != CGE_OBJ_TYPE_IO) {
         CGE_LogErrorWrongObjectType ( 
             Context, IOid, 
@@ -34,21 +41,18 @@ CGE_Bool CGE_IOReadFile(CGE_Context *Context, CGE_Object_id IOid, const char *Fi
         );
         return CGE_False;
     }
-    FILE *File = fopen(FileName, "r");
-    if (File == NULL) {
-        CGE_LogString (
-            CGE_LOG_MSG_ERROR " No such File or Directory:\n"
-            CGE_LOG_MSG_ERROR "\t'",
-            CGE_MSG_TYPE_ERROR
-        );
-        CGE_LogString (FileName, CGE_MSG_TYPE_ERROR);
-        CGE_LogString ("'\n\n", CGE_MSG_TYPE_ERROR);
-        return CGE_False;
-    }
     CGE_IO *IO = &IOobj->data.IO;
-    free(IO->StringBuf);
 
-    fseek(File, 0, SEEK_END);
+    return CGE_IOReadFile_unsafe(IO, FileName);
+}
+CGE_Bool CGE_IOReadFile_unsafe (CGE_IO *IO, const char *FileName) {
+    FILE *File = fopen(FileName, "r");
+	if (File == NULL) {
+		return CGE_False;
+	}
+    free(IO->StringBuf);
+    
+	fseek(File, 0, SEEK_END);
     IO->BufSize = ftell(File);
     fseek(File, 0, SEEK_SET);
     
@@ -58,11 +62,10 @@ CGE_Bool CGE_IOReadFile(CGE_Context *Context, CGE_Object_id IOid, const char *Fi
     IO->StringBuf[IO->BufSize] = 0;
 
     fclose(File);
-
-    return CGE_True;
+	return CGE_True;
 }
 
-char *CGE_IOGetString (CGE_Context *Context, CGE_Object_id IOid) {
+const char *CGE_IOGetString (CGE_Context *Context, CGE_Object_id IOid) {
     CGE_Object *IOobj = CGE_IndexObject(Context, IOid);
     if (IOobj->type != CGE_OBJ_TYPE_IO) {
         CGE_LogErrorWrongObjectType ( 
@@ -72,4 +75,55 @@ char *CGE_IOGetString (CGE_Context *Context, CGE_Object_id IOid) {
         return NULL;
     }
     return IOobj->data.IO.StringBuf;
+}
+const char *CGE_IOGetString_unsafe (CGE_IO *IO) {
+	return IO->StringBuf;
+}
+
+void CGE_IOSetString (CGE_Context *Context, CGE_Object_id IOid, char *string) {
+	if (!CGE_IsObjectIdValid(Context, IOid)) {
+		return;
+	}
+	CGE_Object *IOobj = CGE_IndexObject(Context, IOid);
+	if (IOobj == NULL) {
+		return;
+	}
+	if (IOobj->type != CGE_OBJ_TYPE_IO) {
+		CGE_LogErrorWrongObjectType(Context, IOid, "CGE_OBJ_TYPE_IO", "CGE_IOGetString");
+		return;
+	}
+	CGE_IO *IO = &IOobj->data.IO;
+    IO->StringBuf = string;
+	IO->BufSize = _str_size_cstr(string);
+}
+void CGE_IOSetString_unsafe (CGE_IO *IO, char *string) {
+    IO->StringBuf = string;
+	IO->BufSize = _str_size_cstr(string);
+}
+
+CGE_Bool CGE_IOWriteToFile (CGE_Context *Context, CGE_Object_id IOid, const char *FileName) {
+	if (!CGE_IsObjectIdValid(Context, IOid)) {
+		return CGE_False;
+	}
+    CGE_Object *IOobj = CGE_IndexObject(Context, IOid);
+	if (IOobj == NULL) {
+		return CGE_False;
+	}
+    if (IOobj->type != CGE_OBJ_TYPE_IO) {
+        CGE_LogErrorWrongObjectType ( 
+            Context, IOid, 
+            "CGE_OBJ_TYPE_IO", "CGE_IOReadFile"
+        );
+        return CGE_False;
+    }
+	CGE_IO *IO = &IOobj->data.IO;
+	return CGE_IOWriteToFile_unsafe(IO, FileName);
+}
+CGE_Bool CGE_IOWriteToFile_unsafe (CGE_IO *IO, const char *FileName) {
+    FILE *File = fopen(FileName, "w");
+	if (File == NULL) {
+		return CGE_False;
+	}
+	fwrite(IO->StringBuf, IO->BufSize, 1,File);
+	return CGE_True;
 }
