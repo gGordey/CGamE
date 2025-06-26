@@ -38,4 +38,6 @@ CGE_API CGE_Bool CGE_IOWriteToFile (CGE_Context *Context, CGE_Object_id IOid, co
 // unsafe version of CGE_IOWriteToFile 
 CGE_API CGE_Bool CGE_IOWriteToFile_unsafe (CGE_IO *IO, const char *FileName);
 
+CGE_API CGE_Object_id CGE_IOLoadResource (CGE_Context *Context, CGE_Object_id IOid, const char *FileName);
+
 #endif

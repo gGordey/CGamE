@@ -112,7 +112,7 @@ CGE_Bool CGE_IOWriteToFile (CGE_Context *Context, CGE_Object_id IOid, const char
     if (IOobj->type != CGE_OBJ_TYPE_IO) {
         CGE_LogErrorWrongObjectType ( 
             Context, IOid, 
-            "CGE_OBJ_TYPE_IO", "CGE_IOReadFile"
+            "CGE_OBJ_TYPE_IO", "CGE_IOWriteToFile"
         );
         return CGE_False;
     }
@@ -127,3 +127,12 @@ CGE_Bool CGE_IOWriteToFile_unsafe (CGE_IO *IO, const char *FileName) {
 	fwrite(IO->StringBuf, IO->BufSize, 1,File);
 	return CGE_True;
 }
+
+CGE_Object_id CGE_IOLoadResource (CGE_Context *Context, CGE_Object_id IOid, const char *FileName) {
+	if (!CGE_IOReadFile(Context, IOid, FileName)) { // all safety checks are here
+		return 0;
+	}
+  	CGE_IO *IO = &CGE_IndexObject(Context, IOid)->data.IO;  
+	
+}
+

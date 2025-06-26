@@ -26,6 +26,7 @@ struct CGE_Object {
         CGE_Renderer Renderer;
         CGE_IO IO;
         CGE_Camera Camera;
+		CGE_Resource Resource;
         CGE_Vec2 Vec2;
         CGE_Vec3 Vec3;
         CGE_Vec4 Vec4;

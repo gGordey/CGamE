@@ -69,6 +69,7 @@ typedef struct CGE_Vec3 CGE_Vec3;
 typedef struct CGE_Vec4 CGE_Vec4;
 // Camera renders all objects that it can see
 typedef struct CGE_Camera CGE_Camera;
+typedef struct CGE_Resource CGE_Resource;
 
 typedef enum CGE_Message_type CGE_Message_type;
 typedef enum CGE_Hook_type CGE_Hook_type;
@@ -76,6 +77,7 @@ typedef enum CGE_Object_type CGE_Object_type;
 // Used to interact with CGE_Context and spicify which vector you want 
 typedef enum CGE_Context_TargetType CGE_Context_TargetType;
 typedef enum CGE_Component_type CGE_Component_type;
+typedef enum CGE_ResourceType CGE_ResourceType;
 
 //  CGE_Context is context where everything is happening
 //  int64_t is additional information needed for some functions
@@ -94,6 +96,7 @@ typedef void (*CGE_Hook_Callback_t)(CGE_Context*, CGE_Object_id, int64_t);
 #include <CGamE_IO.h>
 #include <CGamE_Vector.h>
 #include <CGamE_Camera.h>
+#include <CGamE_Resource.h>
 #include <CGamE_Object.h>
 
 #endif

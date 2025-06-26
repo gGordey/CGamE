@@ -19,6 +19,8 @@ add_library(${SHARED_LIB_NAME} SHARED
     CGamE_IO.c
     CGamE_Vector.c
     CGamE_Camera.c
+	CGamE_Resource.c
+	CGamE_Lib.c 
 )
 target_link_libraries(${SHARED_LIB_NAME} 
     CCT 
