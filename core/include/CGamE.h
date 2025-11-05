@@ -19,10 +19,12 @@
     #define CGE_API extern
 #endif
 
+typedef enum CGE_Result CGE_Result;
 typedef struct CGE_Object CGE_Object; // CGamE_Object.h 
 typedef struct CGE_Property CGE_Property; // CGamE_Prop.h 
 typedef void (*CGE_PipelineFunc)(CGE_Object *); // CGamE_Pipeline.h
 
+#include "CGamE_Result.h"
 #include "CGamE_Object.h"
 #include "CGamE_Prop.h"
 #include "CGamE_Pipeline.h"

@@ -15,8 +15,11 @@ CGE_Object CGE_CreateObject(
 	obj.props_data 	= malloc(props_space);
 	obj.properties 	= malloc(sizeof(CGE_Property) * props_count);
 	obj.pipeline 	= malloc(sizeof(CGE_PipelineFunc) * funcs_count); 
-	assert(obj.props_data && obj.properties && obj.pipeline);
+	if (!(obj.props_data && obj.properties && obj.pipeline)) {
+		CGE_SetLastResult(CGE_RES_OUT_OF_MEMORY);
+	}
 
+	CGE_SetLastResult(CGE_RES_SUCCESS);
 	return obj;
 }
 
@@ -34,11 +37,15 @@ CGE_Property *CGE_ObjectFindProperty(
 		const char *name)
 {
 	// TODO: make this bin search based on hash of name
-	assert(obj && name);
+	if (!(obj && name)) {
+		CGE_SetLastResult(CGE_RES_INVALID_PARAM);
+		return NULL;
+	}
 	for (size_t i = 0; i < obj->props_count; ++i) {
 		if (strcmp(obj->properties[i].name, name) == 0) { return &obj->properties[i]; }
 	}
 
+	CGE_SetLastResult(CGE_RES_SUCCESS);
 	return NULL;
 }
 
@@ -47,14 +54,22 @@ void CGE_ObjectFillProps(
 		CGE_Property *props)
 {
 	// TODO: sort props by hashes of names
-	assert(obj && props && obj->properties);
+	if (!(obj && props && obj->properties)) {
+		CGE_SetLastResult(CGE_RES_INVALID_PARAM);
+		return;
+	}
 	memcpy(obj->properties, props, sizeof(CGE_Property) * obj->props_count);
+	CGE_SetLastResult(CGE_RES_SUCCESS);
 }
 
 void CGE_ObjectFillPipeline(
 		CGE_Object *obj,
 		CGE_PipelineFunc *funcs)
 {
-	assert(obj && funcs && obj->pipeline);
+	if (!(obj && funcs && obj->pipeline)) {
+		CGE_SetLastResult(CGE_RES_INVALID_PARAM);
+		return;
+	}
 	memcpy(obj->pipeline, funcs, sizeof(CGE_PipelineFunc) * obj->funcs_count);
+	CGE_SetLastResult(CGE_RES_SUCCESS);
 }
