@@ -10,14 +10,14 @@
 
 struct CGE_Object {
 	CGE_PipelineFunc *pipeline; // list of `CGE_PipelineFunc`
-	CGE_Property *properties;	// list of `CGE_Property` 
+	CGE_Property *properties;	// list of `CGE_Property`
 	void *props_data;			// raw data of properties themselves
 	size_t funcs_count;			// len of `CGE_PipelineFunc *pipeline;`
 	size_t props_count;			// len of `CGE_Property *properties;`
 };
 
 // Creates a new CGE_Object, allocates space for `props_data`, `properties`, `pipeline` with malloc.
-// This functions uses last result.
+// This functions adds last result.
 CGE_API CGE_Object CGE_CreateObject(
 		size_t props_count,		// associated with field if CGE_Object
 		size_t funcs_count,		// associated with field if CGE_Object
@@ -29,19 +29,19 @@ CGE_API void CGE_DestroyObject(
 
 // Searches for CGE_Property by its name.
 // returns NULL if failed to find.
-// This functions uses last result.
+// This functions adds last result.
 CGE_API CGE_Property *CGE_ObjectFindProperty(
 		const CGE_Object *obj,	// object where searching for CGE_Property
 		const char *name);		// name of property
 
 // memcpy `obj->props_count` elements from `CGE_Property *props` to `obj->properties`.
-// This functions uses last result.
+// This functions adds last result.
 CGE_API void CGE_ObjectFillProps(
 		CGE_Object *obj,		// object where props will be copied to
 		CGE_Property *props);	// properties to copy form
 
 // memcpy `obj->funcs_count` elements from `CGE_PipelineFunc *funcs` to `obj->pipeline`.
-// This functions uses last result.
+// This functions adds last result.
 CGE_API void CGE_ObjectFillPipeline(
 		CGE_Object *obj, 		// object where funcs will be copied to
 		CGE_PipelineFunc *funcs); // functions to copy form 

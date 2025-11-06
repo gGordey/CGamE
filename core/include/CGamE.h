@@ -28,4 +28,5 @@ typedef void (*CGE_PipelineFunc)(CGE_Object *); // CGamE_Pipeline.h
 #include "CGamE_Object.h"
 #include "CGamE_Prop.h"
 #include "CGamE_Pipeline.h"
+#include "CGmaE_ObjRegistry.h"
 

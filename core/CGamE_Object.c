@@ -73,3 +73,13 @@ void CGE_ObjectFillPipeline(
 	memcpy(obj->pipeline, funcs, sizeof(CGE_PipelineFunc) * obj->funcs_count);
 	CGE_SetLastResult(CGE_RES_SUCCESS);
 }
+
+
+// inner function, use extern to access 
+void CGE_ExecuteObjectPipeline(
+		CGE_Object *obj)
+{
+	for (size_t i = 0; i < obj->funcs_count; ++i) {
+		obj->pipeline[i](obj);
+	}
+}
