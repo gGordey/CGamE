@@ -1,0 +1,9 @@
+[submodule "lib/glad"]
+	path = lib/glad
+	url = https://github.com/premake-libs/glad.git
+[submodule "lib/libglad"]
+	path = lib/libglad
+	url = https://github.com/premake-libs/glad.git
+[submodule "lib/libglfw"]
+	path = lib/libglfw
+	url = https://github.com/glfw/glfw.git

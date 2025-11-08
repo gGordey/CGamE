@@ -17,9 +17,11 @@ CGE_Object CGE_CreateObject(
 	obj.pipeline 	= malloc(sizeof(CGE_PipelineFunc) * funcs_count); 
 	if (!(obj.props_data && obj.properties && obj.pipeline)) {
 		CGE_SetLastResult(CGE_RES_OUT_OF_MEMORY);
+		CGE_DestroyObject(&obj);
+		return (CGE_Object){0};
 	}
-
-	CGE_SetLastResult(CGE_RES_SUCCESS);
+	
+	obj.id = CGE_ObjectRegister(&obj); // sets last error for us here
 	return obj;
 }
 
@@ -30,6 +32,7 @@ void CGE_DestroyObject(
 	free(obj->props_data);
 	free(obj->pipeline);
 	memset(obj, 0, sizeof(CGE_Object));
+	CGE_ObjectUnregister(obj->id);
 }
 
 CGE_Property *CGE_ObjectFindProperty(

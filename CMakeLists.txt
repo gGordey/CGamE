@@ -10,6 +10,13 @@ else()
 endif()
 
 include_directories(core)
+include_directories(lib/libglfw)
+include_directories(lib/libglfw/include)
+
+include_directories(lib/libglad/include)
+add_library(glad STATIC lib/libglad/src/glad.c)
+
+add_subdirectory(lib/libglfw)
 
 add_subdirectory(core)
 

@@ -2,6 +2,7 @@
 
 #include <stdbool.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <string.h>
 
 // SOA
@@ -12,17 +13,19 @@ static struct CGE_ObjectRegistry {
 	size_t len;
 } ObjRegistry;
 
-#define CGE_REGISTRY_ALLOC_CHACK_SIZE 1024
+#define CGE_REGISTRY_ALLOC_CHANK_SIZE 1024
 
 static void CGE_ObjRegistryResize() {
-	CGE_Object **new_objs 	= malloc(sizeof(CGE_Object *) * (ObjRegistry.cap + CGE_REGISTRY_ALLOC_CHACK_SIZE));
-	bool *new_is_active   	= malloc(sizeof(bool) * (ObjRegistry.cap + CGE_REGISTRY_ALLOC_CHACK_SIZE));
+	CGE_Object **new_objs 	= malloc(sizeof(CGE_Object *) * (ObjRegistry.cap + CGE_REGISTRY_ALLOC_CHANK_SIZE));
+	bool *new_is_active   	= malloc(sizeof(bool) * (ObjRegistry.cap + CGE_REGISTRY_ALLOC_CHANK_SIZE));
 	
 	if (!(new_objs && new_is_active)) {
 		CGE_SetLastResult(CGE_RES_OUT_OF_MEMORY);
+		free(new_objs);
+		free(new_is_active);
 		return;
 	}
-	if (ObjRegistry.len != 0) { // if ObjRegistry has something in in
+	if (ObjRegistry.len != 0) { // if ObjRegistry already has something in in
 		memcpy(new_objs, ObjRegistry.objs, sizeof(CGE_Object *) * ObjRegistry.cap);
 		memcpy(new_is_active, ObjRegistry.is_active, sizeof(bool) * ObjRegistry.cap);
 		free(ObjRegistry.objs);
@@ -30,7 +33,7 @@ static void CGE_ObjRegistryResize() {
 	}
 	ObjRegistry.objs 		= new_objs;
 	ObjRegistry.is_active 	= new_is_active;
-	ObjRegistry.cap 	   += CGE_REGISTRY_ALLOC_CHACK_SIZE;
+	ObjRegistry.cap 	   += CGE_REGISTRY_ALLOC_CHANK_SIZE;
 	CGE_SetLastResult(CGE_RES_SUCCESS);
 }
 
@@ -48,11 +51,12 @@ size_t CGE_ObjectRegister(
 			break;
 		}
 	}
-	if (empty_obj_id == SIZE_MAX) { empty_obj_id = ObjRegistry.len; }
-
+	if (empty_obj_id == SIZE_MAX) {
+		empty_obj_id = ObjRegistry.len;
+		ObjRegistry.len += 1;
+	}
 	ObjRegistry.is_active[empty_obj_id] = true;
 	ObjRegistry.objs[empty_obj_id] 		= obj;
-	ObjRegistry.len 				   += 1;
 	
 	return empty_obj_id;
 }
@@ -65,9 +69,10 @@ void CGE_ObjectUnregister(
 		return;
 	}
 	ObjRegistry.is_active[id] = false;
+	CGE_SetLastResult(CGE_RES_SUCCESS);
 }
 
-extern void CGE_ExecuteObjectPipeline(CGE_Object *);
+extern void CGE_ExecuteObjectPipeline(CGE_Object *); // CGamE_Object.c
 
 // inner funtion, use extern to access
 void CGE_ExecuteObjectRegistry()
@@ -76,4 +81,14 @@ void CGE_ExecuteObjectRegistry()
 		if (!ObjRegistry.is_active[i]) { continue; }
 		CGE_ExecuteObjectPipeline(ObjRegistry.objs[i]);
 	}
+}
+
+// inner funtion, use extern to access
+void CGE_CleanObjRegistry() {
+	for (size_t i = 0; i < ObjRegistry.len; ++i) {
+		if (!ObjRegistry.is_active[i]) { continue; }
+		CGE_DestroyObject(ObjRegistry.objs[i]);
+	}
+	free(ObjRegistry.objs);
+	free(ObjRegistry.is_active);
 }
