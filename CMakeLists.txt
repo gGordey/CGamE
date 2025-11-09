@@ -9,6 +9,8 @@ else()
 	add_compile_options(-D CGE_BUILD)
 endif()
 
+set(GLFW_BUILD_WIN32 ON)
+
 include_directories(core)
 include_directories(lib/libglfw)
 include_directories(lib/libglfw/include)
@@ -19,4 +21,6 @@ add_library(glad STATIC lib/libglad/src/glad.c)
 add_subdirectory(lib/libglfw)
 
 add_subdirectory(core)
+
+add_subdirectory(tests/general)
 

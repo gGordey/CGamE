@@ -49,3 +49,10 @@ CGE_API void CGE_ObjectFillProps(
 CGE_API void CGE_ObjectFillPipeline(
 		CGE_Object *obj, 		// object where funcs will be copied to
 		CGE_PipelineFunc *funcs); // functions to copy form 
+
+// returns the pointer to raw data of property.
+// returns NULL in case of error if hasnt found.
+// This functions adds last result.
+CGE_API void *CGE_ObjectPropertyDataPtr(
+		const CGE_Object *obj,
+		const char *name);

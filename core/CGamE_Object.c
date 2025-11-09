@@ -52,6 +52,18 @@ CGE_Property *CGE_ObjectFindProperty(
 	return NULL;
 }
 
+void *CGE_ObjectPropertyDataPtr(
+		const CGE_Object *obj,
+		const char *name)
+{
+	CGE_Property *target = CGE_ObjectFindProperty(obj, name);
+	if (!target) {
+		return NULL;
+	}
+	// obj is valid here
+	return obj->props_data + target->offset;
+}
+
 void CGE_ObjectFillProps(
 		CGE_Object *obj,
 		CGE_Property *props)

@@ -31,8 +31,8 @@ typedef struct CGE_Vec3f { float x, y, z; } CGE_Vec3f;
 typedef struct CGE_Vec2i { int x, y; } CGE_Vec2i;
 typedef struct CGE_Vec3i { int x, y, z; } CGE_Vec3i;
 
-#define TO_VEC2F(x, y) ((CGE_Vec2f){ .x = x, .y = y})
-#define TO_VEC2I(x, y) ((CGE_Vec2i){ .x = x, .y = y})
+#define TO_VEC2F(px, py) ((CGE_Vec2f){ .x = px, .y = py})
+#define TO_VEC2I(px, py) ((CGE_Vec2i){ .x = px, .y = py})
 
 #include "CGamE_Result.h"
 #include "CGamE_Object.h"

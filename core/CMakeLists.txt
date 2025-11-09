@@ -6,6 +6,7 @@ add_library(CGamEcore SHARED
 	CGamE_Object.c
 	CGamE_Result.c
 	CGamE_Registry.c 
-	CGamE_Core.c)
+	CGamE_Core.c
+	CGamE_Renderer.c)
 
-target_link_libraries(CGamEcore PRIVATE glfw glad)
+target_link_libraries(CGamEcore glfw glad opengl32 gdi32)
