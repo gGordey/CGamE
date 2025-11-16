@@ -21,6 +21,7 @@
 
 #include <stddef.h>
 
+typedef enum CGE_RendEvent CGE_RendEvent;
 typedef enum CGE_Result CGE_Result;
 typedef struct CGE_Object CGE_Object; // CGamE_Object.h 
 typedef struct CGE_Property CGE_Property; // CGamE_Prop.h 
@@ -40,5 +41,6 @@ typedef struct CGE_Vec3i { int x, y, z; } CGE_Vec3i;
 #include "CGamE_Pipeline.h"
 #include "CGmaE_ObjRegistry.h"
 #include "CGamE_Renderer.h"
+#include "CGamE_Core.h"
 
 

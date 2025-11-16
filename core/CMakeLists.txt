@@ -9,4 +9,4 @@ add_library(CGamEcore SHARED
 	CGamE_Core.c
 	CGamE_Renderer.c)
 
-target_link_libraries(CGamEcore glfw glad opengl32 gdi32)
+target_link_libraries(CGamEcore glfw glad)

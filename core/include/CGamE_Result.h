@@ -7,13 +7,14 @@
 	If function adds a result, it will be stated
 */
 
-#include "CgamE.h"
+#include "CGamE.h"
 
 enum CGE_Result {
 	CGE_RES_SUCCESS = 0,
 	CGE_RES_OUT_OF_MEMORY,
 	CGE_RES_INVALID_PARAM,
 	CGE_RES_GLFW_FAIL,
+	CGE_RES_TOO_MUCH_RENDERERS,
 };
 
 

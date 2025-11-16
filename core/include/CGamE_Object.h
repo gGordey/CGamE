@@ -16,11 +16,11 @@ struct CGE_Object {
 	size_t id;					// id in object registry
 };
 
-// Creates a new CGE_Object, allocates space for `props_data`, `properties`, `pipeline` with malloc.
+// Creates a new CGE_Object using malloc
 // registries object automatically.
-// returns (CGE_Object){0} in case of error.
+// returns NULL in case of error.
 // This functions adds last result.
-CGE_API CGE_Object CGE_CreateObject(
+CGE_API CGE_Object *CGE_CreateObject(
 		size_t props_count,		// associated with field if CGE_Object
 		size_t funcs_count,		// associated with field if CGE_Object
 		size_t props_space);	// length (in bytes) for `props_data`

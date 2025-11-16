@@ -5,8 +5,7 @@
 #include <stdint.h>
 #include <string.h>
 
-// SOA
-static struct CGE_ObjectRegistry {
+static struct {
 	CGE_Object **objs; 	// dynamic array of CGE_Object pointers
 	bool *is_active; 	// dynamic array, shows is coresponding entry in `**objs` should be executed
 	size_t cap;

@@ -10,5 +10,9 @@
 // Startup routine for core
 CGE_API void CGE_StartCore();
 
+// Destroy everything and free resources
 CGE_API void CGE_ShutdownCore();
 
+CGE_API void CGE_CoreTerminate();
+
+CGE_API int CGE_ShouldCoreTerminate();

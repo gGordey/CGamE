@@ -4,25 +4,31 @@
 #include <stdlib.h>
 #include <assert.h>
 
-CGE_Object CGE_CreateObject(
+CGE_Object *CGE_CreateObject(
 		size_t props_count,
 		size_t funcs_count,
 		size_t props_space) 
 {
-	CGE_Object obj 	= {0};
-	obj.props_count = props_count;
-	obj.funcs_count = funcs_count;
-	obj.props_data 	= malloc(props_space);
-	obj.properties 	= malloc(sizeof(CGE_Property) * props_count);
-	obj.pipeline 	= malloc(sizeof(CGE_PipelineFunc) * funcs_count); 
-	if (!(obj.props_data && obj.properties && obj.pipeline)) {
-		CGE_SetLastResult(CGE_RES_OUT_OF_MEMORY);
-		CGE_DestroyObject(&obj);
-		return (CGE_Object){0};
+	CGE_Object *obj  = malloc(sizeof(CGE_Object));
+	if (!obj) {
+		goto err;
+	}
+	obj->props_count = props_count;
+	obj->funcs_count = funcs_count;
+	obj->props_data  = malloc(props_space);
+	obj->properties  = malloc(sizeof(CGE_Property) * props_count);
+	obj->pipeline 	 = malloc(sizeof(CGE_PipelineFunc) * funcs_count); 
+	if (!(obj->props_data && obj->properties && obj->pipeline)) {
+		goto err;
 	}
 	
-	obj.id = CGE_ObjectRegister(&obj); // sets last error for us here
+	obj->id = CGE_ObjectRegister(obj); // sets last error for us here
 	return obj;
+
+err:
+	CGE_SetLastResult(CGE_RES_OUT_OF_MEMORY);
+	CGE_DestroyObject(obj);
+	return NULL; 
 }
 
 void CGE_DestroyObject(
@@ -31,8 +37,8 @@ void CGE_DestroyObject(
 	free(obj->properties);
 	free(obj->props_data);
 	free(obj->pipeline);
-	memset(obj, 0, sizeof(CGE_Object));
 	CGE_ObjectUnregister(obj->id);
+	free (obj);
 }
 
 CGE_Property *CGE_ObjectFindProperty(
@@ -89,11 +95,13 @@ void CGE_ObjectFillPipeline(
 	CGE_SetLastResult(CGE_RES_SUCCESS);
 }
 
-
 // inner function, use extern to access 
 void CGE_ExecuteObjectPipeline(
 		CGE_Object *obj)
 {
+	if (obj == NULL) {
+		return;
+	}
 	for (size_t i = 0; i < obj->funcs_count; ++i) {
 		obj->pipeline[i](obj);
 	}
