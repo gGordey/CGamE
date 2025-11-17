@@ -1,5 +1,7 @@
 #include "include/CGamE.h"
 
+#include "glad/glad.h"
+#define GLFW_INCLUDE_NONE
 #include "GLFW/glfw3.h"
 
 static int should_terminate = 0;
@@ -12,9 +14,9 @@ int CGE_ShouldCoreTerminate() {
 	return should_terminate;
 }
 
-extern void CGE_DefaultRendCloseCallback(CGE_Renderer *);
 
 void CGE_StartCore() {
+	extern void CGE_DefaultRendCloseCallback(CGE_Renderer*);
 	glfwInit();
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -24,10 +26,10 @@ void CGE_StartCore() {
 	CGE_SetRendererCloseCallback(CGE_DefaultRendCloseCallback);
 }
 
-extern void CGE_CleanObjRegistry(); // CGamE_Registry.c
-extern void CGE_CleanRendRegistry(); // CGamE_Renderer.c
 
 void CGE_ShutdownCore() {
+	extern void CGE_CleanObjRegistry(); 
+	extern void CGE_CleanRendRegistry();
 	glfwTerminate();
 	CGE_CleanObjRegistry();
 	CGE_CleanRendRegistry();

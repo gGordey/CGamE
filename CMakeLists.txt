@@ -6,7 +6,7 @@ project(CGamE)
 if (MSVC)
 	add_compile_options(/D CGE_BUILD)
 else()
-	add_compile_options(-D CGE_BUILD)
+	add_compile_options(-D CGE_BUILD -fPIC -O2)
 endif()
 
 set(GLFW_BUILD_WIN32 ON)

@@ -21,12 +21,11 @@
 
 #include <stddef.h>
 
-typedef enum CGE_RendEvent CGE_RendEvent;
 typedef enum CGE_Result CGE_Result;
 typedef struct CGE_Object CGE_Object; // CGamE_Object.h 
 typedef struct CGE_Property CGE_Property; // CGamE_Prop.h 
 typedef void (*CGE_PipelineFunc)(CGE_Object *); // CGamE_Pipeline.h
-typedef struct CGE_Renderer CGE_Renderer;
+typedef struct CGE_Renderer CGE_Renderer; // CGamE_Renderer.h
 typedef struct CGE_Vec2f { float x, y; } CGE_Vec2f;
 typedef struct CGE_Vec3f { float x, y, z; } CGE_Vec3f;
 typedef struct CGE_Vec2i { int x, y; } CGE_Vec2i;
@@ -34,6 +33,9 @@ typedef struct CGE_Vec3i { int x, y, z; } CGE_Vec3i;
 
 #define TO_VEC2F(px, py) ((CGE_Vec2f){ .x = px, .y = py})
 #define TO_VEC2I(px, py) ((CGE_Vec2i){ .x = px, .y = py})
+
+// amound of items that will be added to some dynamic arrays with each reallocation 
+#define CGE_DYN_ARR_REALLOC_SIZE (512)
 
 #include "CGamE_Result.h"
 #include "CGamE_Object.h"

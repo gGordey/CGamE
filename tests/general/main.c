@@ -6,15 +6,19 @@
 extern void CGE_RenderersPollEvents();
 extern void CGE_StartCore();
 extern void CGE_ShutdownCore();
-extern void CGE_ExecuteObjectPipeline();
+extern void CGE_ExecuteObjectRegistry();
+extern void CGE_DrawRenderable();
 
 int main() {
 	printf("START!\n");
 
 	CGE_StartCore();
-	printf("Core started\n");
 	
 	CGE_Object *obj = CGE_CreateObject(2,0,sizeof(CGE_Renderer*)*2);
+	if (obj == NULL) {
+		printf("ggwp\n");
+		return -1;
+	}
 	printf("Obj Created\n");
 
 	CGE_Property obj_props[2] = {
@@ -29,12 +33,17 @@ int main() {
 	printf("Rend prop found\n");
 	
 	*rend  = CGE_CreateRenderer("Test window", TO_VEC2I(500, 500));
-	*rend1 = CGE_CreateRenderer("Test window", TO_VEC2I(800, 200));
+	//*rend1 = 1; //CGE_CreateRenderer("Test window1", TO_VEC2I(800, 200));
+	if (!*rend) {//if (!(*rend1 && *rend)) {
+		printf("rends kinda dont work\n");
+		return -1;
+	}
 	printf("Renderer Created\n");
 
 	while(!CGE_ShouldCoreTerminate()) {
+		CGE_ExecuteObjectRegistry();	
+		CGE_DrawRenderable();
 		CGE_RenderersPollEvents();
-		CGE_ExecuteObjectPipeline();	
 	}
 
 	CGE_ShutdownCore();

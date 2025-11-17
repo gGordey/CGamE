@@ -11,6 +11,10 @@
 #define GLFW_INCLUDE_NONE
 #include "GLFW/glfw3.h"
 
+#ifndef CGE_RENDERERS_CAP
+	#define CGE_RENDERERS_CAP 64 
+#endif
+
 struct CGE_Renderer {
 	CGE_Vec2i size;			// heigth and width of window
 	CGE_Vec2f pos;			// position of window on a screan
