@@ -88,37 +88,6 @@ static void CGE_ResizeRendQueue() {
 	CGE_SetLastResult(CGE_RES_SUCCESS);
 }
 
-GLuint CGE_CreateShader() {
-    const char* vertexSource = "\
-        #version 330 core\n\
-        layout(location = 0) in vec2 aPos;\n\
-        void main() {\n\
-            gl_Position = vec4(aPos, 0.0, 1.0);}";
-
-    const char* fragmentSource = "\
-        #version 330 core\n\
-        out vec4 FragColor;\n\
-        void main() {\n\
-            FragColor = vec4(1.0, 0.0, 0.0, 1.0);}";
-
-    GLuint vertex = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertex, 1, &vertexSource, NULL);
-    glCompileShader(vertex);
-
-    GLuint fragment = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragment, 1, &fragmentSource, NULL);
-    glCompileShader(fragment);
-
-    GLuint shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertex);
-    glAttachShader(shaderProgram, fragment);
-    glLinkProgram(shaderProgram);
-
-    glDeleteShader(vertex);
-    glDeleteShader(fragment);
-
-    return shaderProgram;
-}
 
 GLuint VBO;
 GLuint VAO;

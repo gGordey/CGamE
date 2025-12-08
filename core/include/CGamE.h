@@ -26,6 +26,7 @@ typedef struct CGE_Object CGE_Object; // CGamE_Object.h
 typedef struct CGE_Property CGE_Property; // CGamE_Prop.h 
 typedef void (*CGE_PipelineFunc)(CGE_Object *); // CGamE_Pipeline.h
 typedef struct CGE_Renderer CGE_Renderer; // CGamE_Renderer.h
+typedef struct CGE_Renderable CGE_Renderable; // CGamE_Renderable.h
 typedef struct CGE_Vec2f { float x, y; } CGE_Vec2f;
 typedef struct CGE_Vec3f { float x, y, z; } CGE_Vec3f;
 typedef struct CGE_Vec2i { int x, y; } CGE_Vec2i;
@@ -43,6 +44,7 @@ typedef struct CGE_Vec3i { int x, y, z; } CGE_Vec3i;
 #include "CGamE_Pipeline.h"
 #include "CGmaE_ObjRegistry.h"
 #include "CGamE_Renderer.h"
+#include "CGamE_Renderable.h"
 #include "CGamE_Core.h"
 
 
